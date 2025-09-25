@@ -1,0 +1,51 @@
+import { Response } from "express"
+import { AuthRequest } from "../types/AuthRequest";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const genQue = async (req: AuthRequest, res: Response) => {
+    try {
+
+        const file = req.file;
+        const { JD, title, experience, additionalTopics } = req.body;
+
+        if (!file || !JD || !title || !experience) {
+            return res.status(400).json({
+                msg: "All fields are required",
+            });
+        }
+
+        let prompt = `Think of yourself as an interviewer and I want you to generate 10 interview questions 
+based on the job description: ${JD} and Job title: ${title}, for a ${experience} level. Also note that I want No bs just straight up question as a numbered list!`;
+
+        if (additionalTopics && additionalTopics.length > 0) {
+            prompt += ` Also generate 3 questions per element in this array: ${additionalTopics}`;
+        }
+
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY as string);
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); 
+
+        const filePart = {
+            inlineData: {
+                mimeType: "application/pdf",
+                data: file.buffer.toString("base64"),
+            },
+        };
+
+        const result = await model.generateContent([
+            { text: prompt },
+            filePart,
+        ]);
+        console.log(result.response.text());
+
+        res.status(200).json({
+            questions: result.response.text(),
+        });
+    } catch (error) {
+        console.log("Error in Generating the Questions: ", error);
+        return res.status(500).json({
+            msg: "Internal Server Error"
+        })
+    }
+}
+
+export default genQue;
