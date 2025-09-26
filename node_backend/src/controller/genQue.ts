@@ -1,6 +1,7 @@
 import { Response } from "express"
 import { AuthRequest } from "../types/AuthRequest";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import * as googleTTs from "google-tts-api";
 
 const genQue = async (req: AuthRequest, res: Response) => {
     try {
@@ -15,7 +16,7 @@ const genQue = async (req: AuthRequest, res: Response) => {
         }
 
         let prompt = `Think of yourself as an interviewer and I want you to generate 10 interview questions 
-based on the job description: ${JD} and Job title: ${title}, for a ${experience} level. Also note that I want No bs just straight up question as a numbered list!`;
+based on the job description: ${JD} and Job title: ${title}, for a ${experience} level. Also note that I want No bs just straight up question as a numbered list! I want the response in a predefined format of {question: {generated questions in an array}, additionalTopics: {generated questions in an array}}`;
 
         if (additionalTopics && additionalTopics.length > 0) {
             prompt += ` Also generate 3 questions per element in this array: ${additionalTopics}`;
@@ -35,10 +36,12 @@ based on the job description: ${JD} and Job title: ${title}, for a ${experience}
             { text: prompt },
             filePart,
         ]);
-        console.log(result.response.text());
+
+        const geminiResponse = JSON.parse(result.response.text().replace("```json", "").replace("```", ""))
+
 
         res.status(200).json({
-            questions: result.response.text(),
+            response: geminiResponse
         });
     } catch (error) {
         console.log("Error in Generating the Questions: ", error);
@@ -47,5 +50,7 @@ based on the job description: ${JD} and Job title: ${title}, for a ${experience}
         })
     }
 }
+
+
 
 export default genQue;
