@@ -2,7 +2,7 @@ import React from 'react'
 
 const Navbar = () => {
     return (
-        <div className='bg-black h-20 w-screen flex flex-row justify-between items-center px-20'>
+        <div className='fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-gray-800 flex items-center justify-between px-8 py-4 flex-row'>
             <h1 className='text-white text-3xl font-bold'>Mockable</h1>
 
             <div className='text-gray-200 flex flex-row gap-5'>
