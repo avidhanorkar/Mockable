@@ -62,7 +62,6 @@ based on the resume uploaded, job description: ${JD} and Job title: ${title}, fo
             audioUrl.question.push(urls);
         }
         res.status(200).json({
-            quesitons: geminiResponse,
             audioUrl
         });
     } catch (error) {
