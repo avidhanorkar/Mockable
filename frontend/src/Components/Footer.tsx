@@ -8,7 +8,7 @@ const Footer = () => {
         <p className="text-white">© 2024 Mockable. All rights reserved.</p>
       </div>
 
-      <p className="text-white font-bold text-5xl absolute -bottom-2 -right-2 text-right">
+      <p className="text-white font-semibold text-4xl absolute bottom-0 right-0 text-right">
         Made for Job Seekers, Made by Job Seekers.
       </p>
     </div>
