@@ -2,66 +2,68 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "..
 
 export function FAQAccordion() {
     return (
-        <div className="text-white w-[90vw] pt-20">
-            <div>
-                <h1 className="text-5xl font-extrabold mb-4 text-center">Frequently Asked Questions</h1>
+        <div className="text-white w-full max-w-4xl mx-auto pt-20 pb-32 px-4">
+            <div className="mb-12 text-center">
+                <h2 className="text-5xl font-extrabold mb-4 text-white">
+                    Frequently Asked Questions
+                </h2>
+                <p className="text-gray-400 text-lg">Everything you need to know about Mockable</p>
             </div>
+
             <Accordion
                 type="single"
                 collapsible
-                className="w-full"
+                className="w-full flex flex-col gap-4"
                 defaultValue="item-1"
             >
-                {/* 1. What is Mockable? */}
-                <AccordionItem value="item-1">
-                    <AccordionTrigger><p className="text-white text-lg">What is Mockable?</p></AccordionTrigger>
-                    <AccordionContent className="flex flex-col gap-4 ">
-                        <p className="text-gray-300 ">
-                            Mockable is an AI-powered mock interview platform that helps students and job seekers practice real interview scenarios using adaptive questions, emotion analysis, speech-to-text responses, and AI-driven feedback.
+                {/* 2. How does Mockable work? */}
+                <AccordionItem value="item-2" className="border border-white/10 bg-white/5 rounded-xl px-4 backdrop-blur-sm transition-all duration-300">
+                    <AccordionTrigger className="hover:no-underline py-6">
+                        <p className="text-white text-xl font-semibold text-left">How does Mockable work?</p>
+                    </AccordionTrigger>
+                    <AccordionContent className="flex flex-col gap-4 pb-6">
+                        <p className="text-gray-300 text-lg leading-relaxed">
+                            Users select a job role and experience level, then engage in a simulated interview. Our AI asks questions, analyzes responses for content, tone, and clarity, and provides instant, personalized feedback.
                         </p>
                     </AccordionContent>
                 </AccordionItem>
 
-                {/* 6. What does the report include? */}
-                <AccordionItem value="item-6">
-                    <AccordionTrigger><p className="text-white text-lg">What does the interview report include?</p></AccordionTrigger>
-                    <AccordionContent className="flex flex-col gap-4 ">
-                        <p className="text-gray-300 ">The AI-generated report includes:</p>
-                        <ul className="list-disc ml-6">
-                            <li>Emotion timeline</li>
-                            <li>Answer quality score</li>
-                            <li>Plagiarism score</li>
-                            <li>Speech clarity</li>
-                            <li>Confidence analysis</li>
-                            <li>Strengths & weaknesses</li>
-                            <li>PDF export</li>
-                        </ul>
-                    </AccordionContent>
-                </AccordionItem>
-
-                {/* 8. Who should use Mockable? */}
-                <AccordionItem value="item-8">
-                    <AccordionTrigger><p className="text-white text-lg">Who should use Mockable?</p></AccordionTrigger>
-                    <AccordionContent className="flex flex-col gap-4 ">
-                        <p className="text-gray-300 ">
-                            Students, freshers, job seekers, working professionals, and anyone who wants
-                            to improve interview performance, confidence, and communication skills.
+                {/* 3. What kind of feedback does Mockable provide? */}
+                <AccordionItem value="item-3" className="border border-white/10 bg-white/5 rounded-xl px-4 backdrop-blur-sm transition-all duration-300">
+                    <AccordionTrigger className="hover:no-underline py-6">
+                        <p className="text-white text-xl font-semibold text-left">What kind of feedback does Mockable provide?</p>
+                    </AccordionTrigger>
+                    <AccordionContent className="flex flex-col gap-4 pb-6">
+                        <p className="text-gray-300 text-lg leading-relaxed">
+                            Mockable offers comprehensive feedback including analysis of your answers' relevance and depth, speech patterns (e.g., filler words, pace), emotional cues, and suggestions for improvement.
                         </p>
                     </AccordionContent>
                 </AccordionItem>
 
-                {/* 10. Is Mockable free to use? */}
-                <AccordionItem value="item-10">
-                    <AccordionTrigger><p className="text-white text-lg">Is Mockable free to use?</p></AccordionTrigger>
-                    <AccordionContent className="flex flex-col gap-4 ">
-                        <p className="text-gray-300 ">
-                            Mockable offers both free and premium plans. The free tier includes basic
-                            mock interviews, limited reports, and light resume analysis. Premium plans
-                            unlock advanced AI features, detailed analytics, downloadable reports, and
-                            unlimited interviews.
+                {/* 4. Is Mockable suitable for all job levels? */}
+                <AccordionItem value="item-4" className="border border-white/10 bg-white/5 rounded-xl px-4 backdrop-blur-sm transition-all duration-300">
+                    <AccordionTrigger className="hover:no-underline py-6">
+                        <p className="text-white text-xl font-semibold text-left">Is Mockable suitable for all job levels?</p>
+                    </AccordionTrigger>
+                    <AccordionContent className="flex flex-col gap-4 pb-6">
+                        <p className="text-gray-300 text-lg leading-relaxed">
+                            Yes, Mockable is designed for a wide range of users, from students and new graduates to experienced professionals looking to refine their interview skills. You can select your experience level to tailor the interview difficulty.
                         </p>
                     </AccordionContent>
                 </AccordionItem>
+
+                {/* 5. What makes Mockable different from other interview platforms? */}
+                <AccordionItem value="item-5" className="border border-white/10 bg-white/5 rounded-xl px-4 backdrop-blur-sm transition-all duration-300">
+                    <AccordionTrigger className="hover:no-underline py-6">
+                        <p className="text-white text-xl font-semibold text-left">What makes Mockable different from other interview platforms?</p>
+                    </AccordionTrigger>
+                    <AccordionContent className="flex flex-col gap-4 pb-6">
+                        <p className="text-gray-300 text-lg leading-relaxed">
+                            Our platform stands out with its adaptive AI questions, real-time emotion analysis, and highly personalized, actionable feedback that goes beyond generic tips to target your specific areas for improvement.
+                        </p>
+                    </AccordionContent>
+                </AccordionItem>
+
             </Accordion>
         </div>
     )

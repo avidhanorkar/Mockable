@@ -26,18 +26,22 @@ const Features = () => {
             title: "PDF Report Generation",
             description: "Download a detailed interview report with insights, scores, transcripts, and improvement paths.",
         },
-        
+
     ];
 
     return (
-        <div>
-            <div className='flex flex-col justify-center mt-20 text-white text-center gap-20'>
-                <div className='flex flex-col gap-3'>
-                    <h1 className='text-6xl font-extrabold'>Boost your interview chances</h1>
-                    <p className='text-gray-300'><span className='font-bold text-gray-200'>Mockable</span> gives you a detailed report on what's holding them back - and how to improve before applying</p>
+        <div className='w-full px-4 mb-32'>
+            <div className='flex flex-col items-center justify-center mt-20 text-white text-center gap-16 max-w-7xl mx-auto'>
+                <div className='flex flex-col gap-6 max-w-3xl'>
+                    <h2 className='text-5xl md:text-6xl font-extrabold tracking-tight'>
+                        Boost your interview chances
+                    </h2>
+                    <p className='text-gray-400 text-xl leading-relaxed'>
+                        <span className='font-bold text-white'>Mockable</span> gives you a detailed report on what's holding you back - and how to improve before applying.
+                    </p>
                 </div>
 
-                <div className='flex flex-row gap-5 flex-wrap justify-center'>
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full'>
                     {mockableFeatures.map((item, index) => (
                         <Card key={index} title={item.title} description={item.description} />
                     ))}

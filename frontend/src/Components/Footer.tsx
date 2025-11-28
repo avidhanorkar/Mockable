@@ -1,15 +1,13 @@
-import React from 'react'
-
 const Footer = () => {
   return (
-    <div className="h-40 bg-black px-20 relative flex items-center overflow-hidden">
-      <div className="flex flex-col gap-2 w-full">
+    <div className="h-40 bg-black border-t border-white/10 px-20 relative flex items-center overflow-hidden">
+      <div className="flex flex-col gap-2 w-full z-10">
         <p className="text-white text-xl font-bold">Mockable - A Mock Interview Platform</p>
-        <p className="text-white">© 2024 Mockable. All rights reserved.</p>
+        <p className="text-gray-400">© 2025 Mockable. All rights reserved.</p>
       </div>
 
-      <p className="text-white font-semibold text-4xl absolute bottom-0 right-0 text-right">
-        Made for Job Seekers, Made by Job Seekers.
+      <p className="text-white/5 font-bold text-6xl absolute -bottom-4 right-0 text-right select-none pointer-events-none">
+        Made by and for Job Seekers
       </p>
     </div>
   )
