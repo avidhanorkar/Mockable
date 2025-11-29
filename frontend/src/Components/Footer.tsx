@@ -6,7 +6,7 @@ const Footer = () => {
         <p className="text-gray-400">© 2025 Mockable. All rights reserved.</p>
       </div>
 
-      <p className="text-white/5 font-bold text-6xl absolute -bottom-4 right-0 text-right select-none pointer-events-none">
+      <p className="text-[#161616] font-bold text-6xl absolute -bottom-4 right-0 text-right select-none pointer-events-none">
         Made by and for Job Seekers
       </p>
     </div>
