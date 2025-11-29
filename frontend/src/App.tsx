@@ -1,3 +1,6 @@
+import ProtectedRoute from './routes/Protected'
+import PublicRoute from './routes/Public'
+
 import Navbar from './Components/Navbar'
 import Landing from './Pages/Landing'
 import Footer from './Components/Footer'
@@ -13,11 +16,11 @@ const App = () => {
       <Navbar />
         <div className='pt-40 pb-20'>
           <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<PublicRoute><Landing /></PublicRoute>} />
+            <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+            <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
             <Route path="*" element={<NotFound />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           </Routes>
         </div>
       <Footer />

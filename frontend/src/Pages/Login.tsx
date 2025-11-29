@@ -24,7 +24,9 @@ const Login = () => {
             withCredentials: true
         });
 
-        console.log(response.data)
+        if (response.status === 200) {
+            navigate("/dashboard")
+        }
     }
 
     return (
