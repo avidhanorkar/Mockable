@@ -4,7 +4,7 @@ import { FAQAccordion } from '../Components/Landing/FAQ'
 import Features from '../Components/Landing/features'
 const Landing = () => {
   return (
-    <div className='pt-40 flex flex-col gap-10 items-center justify-center '>
+    <div className=' flex flex-col gap-10 items-center justify-center '>
       <C1 />
 
 
@@ -12,7 +12,6 @@ const Landing = () => {
       <Features />
 
       <FAQAccordion />
-      <div className='mb-20'></div>
     </div>
   )
 }

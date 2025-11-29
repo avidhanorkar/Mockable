@@ -2,7 +2,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "..
 
 export function FAQAccordion() {
     return (
-        <div className="text-white w-full max-w-4xl mx-auto pt-20 pb-32 px-4">
+        <div className="text-white w-full max-w-4xl mx-auto pt-20 px-4">
             <div className="mb-12 text-center">
                 <h2 className="text-5xl font-extrabold mb-4 text-white">
                     Frequently Asked Questions

@@ -1,4 +1,5 @@
 import { Button } from '../ui/button'
+import { Link } from 'react-router-dom'
 const C1 = () => {
     return (
         <div className='flex flex-col gap-14 items-center  h-[80vh]'>
@@ -13,9 +14,12 @@ const C1 = () => {
             </div>
 
             <div className='flex flex-row gap-10'>
-                <Button className='bg-white text-black px-10 py-6 w-fit rounded-md text-lg font-semibold hover:bg-gray-200'>
-                    Get Started
-                </Button>
+
+                <Link to={'/register'}>
+                    <Button className='bg-white text-black px-10 py-6 w-fit rounded-md text-lg font-semibold hover:bg-gray-200'>
+                        Get Started
+                    </Button>
+                </Link>
                 <Button className='border border-white text-white px-10 py-6 w-fit rounded-md text-lg font-semibold hover:bg-white hover:text-black'>
                     Watch Demo
                 </Button>

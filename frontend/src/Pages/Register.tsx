@@ -1,45 +1,60 @@
 import React, { useState } from 'react'
 import { Button } from '../Components/ui/button'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-const Login = () => {
+const Register = () => {
     const navigate = useNavigate()
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const handleGoogleLogin = () => {
         // Placeholder for actual login logic
-        console.log("Login with Google clicked")
+        console.log("Register with Google clicked")
     }
 
-    const handleEmailLogin = async (e: React.FormEvent) => {
+
+    const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault()
         const user = {
+            name,
             email,
             password
         }
 
-        const response = await axios.post("http://localhost:3000/v1/auth/login", user, {
-            withCredentials: true
-        });
-
-        console.log(response.data)
+        try {
+            const response = await axios.post("http://localhost:3000/v1/auth/register", user, {
+                withCredentials: true
+            });
+            console.log(response.data)
+            navigate('/dashboard'); 
+        } catch (error) {
+            console.error("Registration failed", error)
+        }
     }
 
     return (
-        <div className='bg-[#161616] flex flex-col items-center relative overflow-hidden'>
+        <div className='bg-[#161616] flex flex-col items-center relative overflow-hidden '>
 
             <div className='z-10 w-full max-w-md px-8'>
                 <div className='bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 shadow-2xl'>
                     <div className='text-center mb-8'>
-                        <h1 className='text-4xl font-bold text-white mb-2'>Welcome Back</h1>
-                        <p className='text-gray-400'>Sign in to continue your preparation</p>
+                        <h1 className='text-4xl font-bold text-white mb-2'>Create Account</h1>
+                        <p className='text-gray-400'>Join us to start your preparation</p>
                     </div>
 
                     <div className='space-y-4'>
-                        <form onSubmit={handleEmailLogin} className='space-y-4'>
+                        <form onSubmit={handleRegister} className='space-y-4'>
                             <div className='space-y-2'>
+                                <input
+                                    type="text"
+                                    placeholder="Full Name"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className='w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all'
+                                    required
+                                />
                                 <input
                                     type="email"
                                     placeholder="Email address"
@@ -61,12 +76,11 @@ const Login = () => {
                                 type="submit"
                                 className='w-full bg-white text-black py-4 rounded-xl text-lg font-semibold hover:bg-gray-200 transition-all duration-300'
                             >
-                                Sign In
+                                Sign Up
                             </Button>
 
                             <div className='flex flex-col'>
-                                <p className='text-gray-400 text-center'>Don't have an account? <Link to={'/register'} className='text-white/80'>Sign Up</Link></p>
-                                <p className='text-gray-400 text-center'>Forgot Password? <span className='text-white/80'>Reset Password</span></p>
+                                <p className='text-gray-400 text-center'>Already have an account? <span className='text-white cursor-pointer' onClick={() => navigate('/login')}>Sign In</span></p>
                             </div>
                         </form>
 
@@ -101,7 +115,7 @@ const Login = () => {
                                     fill="#EA4335"
                                 />
                             </svg>
-                            Sign in with Google
+                            Sign up with Google
                         </Button>
 
                         <Button
@@ -118,4 +132,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Register

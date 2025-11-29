@@ -3,6 +3,7 @@ import type {Express, Request, Response} from 'express';
 import { configDotenv } from 'dotenv';
 import connectDB from './config/db';
 import router from './routes/routes';
+import cors from 'cors';
 
 configDotenv();
 const app = express();
@@ -10,6 +11,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const corsOption = {
+    origin: "http://localhost:5173",
+    credentials: true
+}
+app.use(cors(corsOption));
 connectDB();
 
 app.get("/", (req, res) => res.send("trial Route"));
