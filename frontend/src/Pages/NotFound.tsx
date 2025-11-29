@@ -6,7 +6,6 @@ const NotFound = () => {
 
     return (
         <div className='bg-[#161616] min-h-screen flex flex-col items-center justify-center relative overflow-hidden'>
-            {/* Background decorative elements */}
 
             <div className='z-10 flex flex-col items-center gap-8 text-center px-4'>
                 <div className='relative'>
