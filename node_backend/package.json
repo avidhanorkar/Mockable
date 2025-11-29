@@ -16,6 +16,7 @@
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.96",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.5.2",
@@ -27,9 +28,10 @@
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "axios": "^1.13.2",
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
-    "google-tts-api": "^0.0.6",
+    "google-tts-api": "^2.0.2",
     "googleapis": "^166.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.2",
