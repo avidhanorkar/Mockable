@@ -10,6 +10,7 @@ export interface AuthContextType {
     token: string | null;
     isLoading: boolean;
     isAuthenticated: boolean;
+    login: (token: string, user: User) => void;
 }
 
 export interface LoginResponse {
@@ -27,7 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const fetchUserData = async () => {
         try {
             const response = await fetch('http://localhost:3000/v1/auth/me', {
-                credentials: 'include', 
+                credentials: 'include',
             });
 
             if (response.ok) {
@@ -58,11 +59,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         checkAuth();
     }, []);
 
+    const login = (newToken: string, newUser: User) => {
+        setToken(newToken);
+        setUser(newUser);
+        localStorage.setItem('token', newToken);
+    };
+
     const value: AuthContextType = {
         user,
         token,
         isLoading,
         isAuthenticated: !!user,
+        login,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

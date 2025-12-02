@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ProtectedRoute from './routes/Protected'
 import PublicRoute from './routes/Public'
 
@@ -8,7 +9,9 @@ import Login from './Pages/Login'
 import Register from './Pages/Register'
 import NotFound from './Pages/NotFound'
 import Dashboard from './Pages/Dashboard'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import InterviewSetup from './Pages/InterviewSetup'
+import Interview from './Pages/Interview'
+
 const App = () => {
   return (
     <div className='bg-[#161616] min-h-screen overflow-y-hidden'>
@@ -21,6 +24,8 @@ const App = () => {
             <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
             <Route path="*" element={<NotFound />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/interview-setup" element={<ProtectedRoute><InterviewSetup /></ProtectedRoute>} />
+            <Route path="/interview" element={<ProtectedRoute><Interview /></ProtectedRoute>} />
           </Routes>
         </div>
       <Footer />

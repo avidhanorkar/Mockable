@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { Button } from '../Components/ui/button'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/authContext'
 import axios from 'axios'
 
 const Register = () => {
     const navigate = useNavigate()
+    const { login } = useAuth();
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -27,8 +29,9 @@ const Register = () => {
             const response = await axios.post("http://localhost:3000/v1/auth/register", user, {
                 withCredentials: true
             });
-            console.log(response.data)
-            navigate('/dashboard'); 
+            console.log(response)
+            login(response.data.token, response.data.user);
+            navigate('/dashboard');
         } catch (error) {
             console.error("Registration failed", error)
         }
