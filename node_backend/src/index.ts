@@ -23,6 +23,7 @@ connectDB();
 app.get("/", (req, res) => res.send("trial Route"));
 app.use("/v1", router);
 
+
 app.listen(process.env.PORT, () => {
   console.log(`Server started at port: ${process.env.PORT}`);
 });

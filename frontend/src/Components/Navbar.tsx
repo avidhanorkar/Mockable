@@ -5,7 +5,6 @@ import { useAuth } from '../context/authContext'
 
 const Navbar = () => {
     const { user } = useAuth();
-    console.log(user);
     return (
         <div className='fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-gray-800 flex items-center justify-between px-8 py-4 flex-row'>
             <h1 className='text-white text-3xl font-bold'>Mockable</h1>

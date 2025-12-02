@@ -2,16 +2,13 @@ import React, { useState } from 'react'
 import { Button } from '../Components/ui/button'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
+import useGoogleAuth from "../config/googleAuth";
 
 const Login = () => {
     const navigate = useNavigate()
+    const googleLogin = useGoogleAuth();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
-    const handleGoogleLogin = () => {
-        // Placeholder for actual login logic
-        console.log("Login with Google clicked")
-    }
 
     const handleEmailLogin = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -28,6 +25,7 @@ const Login = () => {
             navigate("/dashboard")
         }
     }
+
 
     return (
         <div className='bg-[#161616] flex flex-col items-center relative overflow-hidden'>
@@ -82,7 +80,7 @@ const Login = () => {
                         </div>
 
                         <Button
-                            onClick={handleGoogleLogin}
+                            onClick={() => googleLogin()}
                             className='w-full bg-white text-black py-6 rounded-xl text-lg font-semibold hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-3 group'
                         >
                             <svg className="w-6 h-6" viewBox="0 0 24 24">

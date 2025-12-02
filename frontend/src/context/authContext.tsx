@@ -27,14 +27,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const fetchUserData = async () => {
         try {
+            const token = localStorage.getItem('auth-token');
             const response = await fetch('http://localhost:3000/v1/auth/me', {
-                credentials: 'include',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
 
             if (response.ok) {
                 const userData = await response.json();
                 setUser(userData);
             }
+
         } catch (error) {
             console.error('Failed to fetch user data:', error);
         }
@@ -43,7 +47,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const storedToken = localStorage.getItem('token');
+                const storedToken = localStorage.getItem('auth-token');
 
                 if (storedToken) {
                     setToken(storedToken);
@@ -62,7 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const login = (newToken: string, newUser: User) => {
         setToken(newToken);
         setUser(newUser);
-        localStorage.setItem('token', newToken);
+        localStorage.setItem('auth-token', newToken);
     };
 
     const value: AuthContextType = {

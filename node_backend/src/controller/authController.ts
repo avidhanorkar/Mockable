@@ -3,7 +3,10 @@ import { AuthRequest } from "../types/AuthRequest"
 import User from "../models/userModel";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { resolveSoa } from "dns";
+import axios from "axios";
+
+import oauth2Client from "../config/googleConfig";
+import { google } from "googleapis";
 
 const JWT_SECRET: string = process.env.JWT_SECRET || "secret";
 
@@ -45,8 +48,9 @@ const register = async (req: AuthRequest, res: Response) => {
         res.cookie("auth-token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
-            maxAge: 60 * 60 * 1000
+            sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+            maxAge: 60 * 60 * 1000,
+            path: "/"
         })
 
         return res.status(200).json({
@@ -98,8 +102,9 @@ const login = async (req: AuthRequest, res: Response) => {
         res.cookie("auth-token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
-            maxAge: 60 * 60 * 1000
+            sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+            maxAge: 60 * 60 * 1000,
+            path: "/"
         })
 
         return res.status(200).json({
@@ -126,4 +131,56 @@ const getMe = async (req: AuthRequest, res: Response) => {
         return res.status(500).json({ message: "Internal server error" })
     }
 }
-export { register, login, getMe }
+
+const googleAuth = async (req: AuthRequest, res: Response) => {
+    try {
+        const { code } = req.query;
+
+        const googleResponse = await oauth2Client.getToken(code as string);
+        oauth2Client.setCredentials(googleResponse.tokens);
+
+        const oauth2 = google.oauth2({ version: "v2", auth: oauth2Client })
+
+        const userRes = await oauth2.userinfo.get();
+
+        const { email, name, picture } = userRes.data;
+
+        let user = await User.findOne({ email })
+
+        if (!user) {
+            user = await User.create({
+                name,
+                email,
+                image: picture
+            })
+        }
+
+        const { _id } = user;
+
+        const payload = {
+            id: _id
+        }
+
+        const token = jwt.sign(payload, JWT_SECRET, {
+            expiresIn: "1h"
+        });
+
+        res.cookie("auth-token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+            maxAge: 60 * 60 * 1000,
+            path: "/"
+        })
+
+        return res.status(200).json({
+            msg: "User Logged in successfully",
+            token: token,
+            user: user
+        })
+    } catch (error: any) {
+        console.log(error)
+        return res.status(500).json({ message: error.message || "Internal server error" })
+    }
+}
+export { register, login, getMe, googleAuth }

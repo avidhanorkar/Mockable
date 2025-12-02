@@ -3,19 +3,15 @@ import { Button } from '../Components/ui/button'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/authContext'
 import axios from 'axios'
+import useGoogleAuth from "../config/googleAuth";
 
 const Register = () => {
     const navigate = useNavigate()
     const { login } = useAuth();
+    const googleLogin = useGoogleAuth();
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
-    const handleGoogleLogin = () => {
-        // Placeholder for actual login logic
-        console.log("Register with Google clicked")
-    }
-
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -29,7 +25,6 @@ const Register = () => {
             const response = await axios.post("http://localhost:3000/v1/auth/register", user, {
                 withCredentials: true
             });
-            console.log(response)
             login(response.data.token, response.data.user);
             navigate('/dashboard');
         } catch (error) {
@@ -97,7 +92,7 @@ const Register = () => {
                         </div>
 
                         <Button
-                            onClick={handleGoogleLogin}
+                            onClick={() => googleLogin()}
                             className='w-full bg-white text-black py-6 rounded-xl text-lg font-semibold hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-3 group'
                         >
                             <svg className="w-6 h-6" viewBox="0 0 24 24">
