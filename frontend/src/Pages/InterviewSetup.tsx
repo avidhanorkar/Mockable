@@ -1,4 +1,4 @@
-import React, { use, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '../Components/ui/button';
 import { Upload, FileText, ArrowRight, Briefcase, Code, Clock } from 'lucide-react';
 import axios from 'axios';
@@ -41,7 +41,7 @@ const InterviewSetup = () => {
                 withCredentials: true
             });
             console.log('Interview Questions:', response.data);
-            navigate('/interview', { state: { data: response.data } }); 
+            navigate('/interview', { state: { data: response.data } });
         } catch (error) {
             console.error('Error starting interview:', error);
         }
