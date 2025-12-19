@@ -12,6 +12,8 @@ const InterviewSetup = () => {
     const [experience, setExperience] = useState('');
     const [resume, setResume] = useState<File | null>(null);
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             setResume(e.target.files[0]);
@@ -26,6 +28,8 @@ const InterviewSetup = () => {
             return;
         }
 
+        setIsLoading(true);
+
         const formData = new FormData();
         formData.append('title', jobTitle);
         formData.append('JD', jobDescription);
@@ -34,6 +38,7 @@ const InterviewSetup = () => {
         formData.append('file', resume);
 
         try {
+            console.log("Pls Wait!")
             const response = await axios.post(`http://localhost:3000/v1/ques/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -44,6 +49,9 @@ const InterviewSetup = () => {
             navigate('/interview', { state: { data: response.data } });
         } catch (error) {
             console.error('Error starting interview:', error);
+            alert('Failed to generate interview. Please try again.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -184,14 +192,33 @@ const InterviewSetup = () => {
 
                         <Button
                             type="submit"
-                            className='w-full bg-white text-black py-6 rounded-xl text-lg font-semibold hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-2 mt-8'
+                            disabled={isLoading}
+                            className='w-full bg-white text-black py-6 rounded-xl text-lg font-semibold hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-2 mt-8 disabled:opacity-50 disabled:cursor-not-allowed'
                         >
-                            Start Interview
-                            <ArrowRight size={20} />
+                            {isLoading ? 'Generating Interview...' : 'Start Interview'}
+                            {!isLoading && <ArrowRight size={20} />}
                         </Button>
                     </form>
                 </div>
             </div>
+
+            {/* Loading Overlay */}
+            {isLoading && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex flex-col items-center justify-center animate-in fade-in duration-300">
+                    <div className="relative">
+                        {/* Outer rotating ring */}
+                        <div className="w-24 h-24 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+
+                        {/* Inner pulsing dot */}
+                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full animate-pulse"></div>
+                    </div>
+
+                    <div className="mt-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400">
+                        <h3 className="text-2xl font-bold mb-2">Crafting Your Interview</h3>
+                        <p className="text-gray-400 text-sm">Analyzing your profile & generating questions...</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

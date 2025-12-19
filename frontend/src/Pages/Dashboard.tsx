@@ -1,10 +1,8 @@
-import React from 'react'
-import Navbar from '../Components/Navbar'
 import { Button } from '../Components/ui/button'
 import { Plus, Clock, BarChart2, Calendar, ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const Dashboard = () => {
-    // Mock data for demonstration
     const stats = [
         { label: 'Interviews Completed', value: '12', icon: Calendar, color: 'text-blue-400' },
         { label: 'Average Score', value: '85%', icon: BarChart2, color: 'text-green-400' },
@@ -22,7 +20,6 @@ const Dashboard = () => {
 
             <main className='max-w-7xl mx-auto px-6 space-y-12'>
 
-                {/* Welcome Section */}
                 <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-6'>
                     <div>
                         <h1 className='text-4xl font-bold mb-2 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent'>
@@ -30,13 +27,14 @@ const Dashboard = () => {
                         </h1>
                         <p className='text-gray-400 text-lg'>Ready to ace your next interview?</p>
                     </div>
-                    <Button className='bg-white text-black hover:bg-gray-200 px-6 py-6 rounded-xl text-lg font-semibold flex items-center gap-2 transition-all shadow-lg shadow-white/5'>
-                        <Plus className='w-5 h-5' />
-                        Start New Interview
-                    </Button>
+                    <Link to="/interview-setup">
+                        <Button className='bg-white text-black hover:bg-gray-200 px-6 py-6 rounded-xl text-lg font-semibold flex items-center gap-2 transition-all shadow-lg shadow-white/5'>
+                            <Plus className='w-5 h-5' />
+                            Start New Interview
+                        </Button>
+                    </Link>
                 </div>
 
-                {/* Stats Grid */}
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
                     {stats.map((stat, index) => (
                         <div key={index} className='bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 group'>
@@ -52,7 +50,6 @@ const Dashboard = () => {
                     ))}
                 </div>
 
-                {/* Recent Activity */}
                 <div className='bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8'>
                     <div className='flex items-center justify-between mb-8'>
                         <h2 className='text-2xl font-bold'>Recent Interviews</h2>
