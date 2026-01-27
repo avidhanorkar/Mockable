@@ -31,6 +31,7 @@
     "@google/generative-ai": "^0.24.1",
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
+    "compromise": "^14.14.5",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
@@ -38,6 +39,8 @@
     "googleapis": "^166.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.2",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "natural": "^8.1.0",
+    "openai": "^6.16.0"
   }
 }

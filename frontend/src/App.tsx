@@ -13,6 +13,7 @@ import NotFound from './Pages/NotFound'
 import Dashboard from './Pages/Dashboard'
 import InterviewSetup from './Pages/InterviewSetup'
 import Interview from './Pages/Interview'
+import Report from './Pages/Report'
 
 
 const client = import.meta.env.VITE_GOOGLE_CLIENT_ID
@@ -32,6 +33,7 @@ const App = () => {
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/interview-setup" element={<ProtectedRoute><InterviewSetup /></ProtectedRoute>} />
               <Route path="/interview" element={<ProtectedRoute><Interview /></ProtectedRoute>} />
+              <Route path="/report/:id" element={<ProtectedRoute><Report /></ProtectedRoute>} />
             </Routes>
           </div>
           <Footer />

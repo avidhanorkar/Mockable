@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET: string = process.env.JWT_SECRET || "secret";
 
-const authenticate = async (req: AuthRequest, res: Response, next: NextFunction) => {
+const authMiddleware = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
         let token = req.cookies["auth-token"];
 
@@ -30,4 +30,5 @@ const authenticate = async (req: AuthRequest, res: Response, next: NextFunction)
     }
 }
 
-export default authenticate;
+export { authMiddleware };
+export default authMiddleware;
