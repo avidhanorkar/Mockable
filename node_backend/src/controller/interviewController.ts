@@ -6,9 +6,7 @@ import { analyzeQuestionResponse, generateOverallAnalysis } from "../services/an
 import path from "path";
 import fs from "fs";
 
-/**
- * Create a new interview session
- */
+
 export const createInterview = async (req: AuthRequest, res: Response) => {
     try {
         const { jobTitle, jobDescription, experience, techStack, questions } = req.body;

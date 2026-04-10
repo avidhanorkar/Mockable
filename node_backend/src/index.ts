@@ -6,13 +6,17 @@ import router from './routes/routes';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-configDotenv();
-const app = express();
+configDotenv();  // secrets access 
+const app = express();  // express app created
 
-app.use(express.json());
+app.use(express.json()); // json data access
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser()); // cookie access
 
+// CORS - cross origin resource sharing
+// Frontend PORT 5173 
+// Backend PORT 3000
+// 
 const corsOption = {
   origin: "http://localhost:5173",
   credentials: true

@@ -34,13 +34,11 @@ Job seekers, especially fresh graduates and early professionals, often struggle 
 |                          Layer |                                             Technology |
 |:-------------------------------|:-------------------------------------------------------|
 |                   **Frontend** |                                   ReactJS, TailwindCSS |
-|             **Backend (Core)** |                  **NodeJS / Rust** (Axum or Actix-Web) |
-|                   **Database** |                                  MongoDB or PostgreSQL |
-|             **Authentication** |                                                  Clerk |
-|             **Speech-to-Text** |                    Whisper API / Deepgram / AssemblyAI |
-|                     **AI/NLP** |                OpenAI GPT-4 / HuggingFace Transformers |
-|           **Video Processing** |                     ffmpeg (shell execution from Rust) |
-| **Optional Emotion Detection** |  Python microservice (Flask + DeepFace or face-api.js) |
+|             **Backend (Core)** |                  **NodeJS** |
+|                   **Database** |                                  MongoDB |
+|             **Authentication** |                                                  OAuth |
+|             **Speech-to-Text** |                    GTTS |
+|           **Video Processing** |                     ffmpeg  |
 |          **Report Generation** | JSON APIs + frontend visualization (Recharts/Chart.js) |
 
 ## Workflow
