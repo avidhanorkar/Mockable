@@ -49,7 +49,7 @@ const InterviewSetup = () => {
             navigate('/interview', { state: { data: response.data } });
         } catch (error) {
             console.error('Error starting interview:', error);
-            alert('Failed to generate interview. Please try again.');
+            alert(`Failed to generate interview: ${(error as any)?.response?.data?.msg || 'Please try again.'}`);
         } finally {
             setIsLoading(false);
         }
@@ -158,7 +158,7 @@ const InterviewSetup = () => {
                                 <input
                                     type="file"
                                     onChange={handleFileChange}
-                                    accept=".pdf,.doc,.docx"
+                                    accept=".pdf"
                                     className='hidden'
                                     id="resume-upload"
                                 />
@@ -182,7 +182,7 @@ const InterviewSetup = () => {
                                                 <p className='text-sm text-gray-400 group-hover:text-white transition-colors'>
                                                     <span className='font-semibold'>Click to upload</span> or drag and drop
                                                 </p>
-                                                <p className='text-xs text-gray-500'>PDF, DOC, DOCX (MAX. 5MB)</p>
+                                                <p className='text-xs text-gray-500'>PDF only (MAX. 10MB)</p>
                                             </>
                                         )}
                                     </div>
