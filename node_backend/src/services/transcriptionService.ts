@@ -43,7 +43,7 @@ export const transcribeAudio = async (audioPath: string): Promise<TranscriptionR
         const mimeType = mimeTypes[ext || 'mp3'] || 'audio/mp3';
 
         // Use Gemini to transcribe
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
         const result = await model.generateContent([
             {
