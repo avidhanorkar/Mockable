@@ -63,7 +63,7 @@ const Report = () => {
     const fetchInterviewReport = async () => {
         try {
             const response = await axios.get(
-                `http://localhost:3000/v1/interview/${id}`,
+                `https://mockable.onrender.com/v1/interview/${id}`,
                 { withCredentials: true }
             );
             setInterview(response.data.interview);

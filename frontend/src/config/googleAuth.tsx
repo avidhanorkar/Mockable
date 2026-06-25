@@ -11,7 +11,7 @@ const useGoogleAuth = () => {
         flow: 'auth-code',
         onSuccess: async (authResult) => {
             if (authResult.code) {
-                const result = await axios.post(`http://localhost:3000/v1/auth/google?code=${authResult.code}`, {}, {
+                const result = await axios.post(`https://mockable.onrender.com/v1/auth/google?code=${authResult.code}`, {}, {
                     withCredentials: true
                 })
 

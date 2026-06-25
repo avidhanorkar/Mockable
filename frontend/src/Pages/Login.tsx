@@ -17,7 +17,7 @@ const Login = () => {
             password
         }
 
-        const response = await axios.post("http://localhost:3000/v1/auth/login", user, {
+        const response = await axios.post("https://mockable.onrender.com/v1/auth/login", user, {
             withCredentials: true
         });
 

@@ -36,7 +36,7 @@ const Dashboard = () => {
     const fetchDashboardData = async () => {
         try {
             const response = await axios.get(
-                'http://localhost:3000/v1/interview/',
+                'https://mockable.onrender.com/v1/interview/',
                 { withCredentials: true }
             );
 

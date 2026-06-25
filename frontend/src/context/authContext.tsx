@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const fetchUserData = async () => {
         try {
             const token = localStorage.getItem('auth-token');
-            const response = await fetch('http://localhost:3000/v1/auth/me', {
+            const response = await fetch('https://mockable.onrender.com/v1/auth/me', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

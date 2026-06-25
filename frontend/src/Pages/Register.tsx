@@ -22,7 +22,7 @@ const Register = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:3000/v1/auth/register", user, {
+            const response = await axios.post("https://mockable.onrender.com/v1/auth/register", user, {
                 withCredentials: true
             });
             login(response.data.token, response.data.user);

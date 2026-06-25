@@ -39,7 +39,7 @@ const InterviewSetup = () => {
 
         try {
             console.log("Pls Wait!")
-            const response = await axios.post(`http://localhost:3000/v1/ques/`, formData, {
+            const response = await axios.post(`https://mockable.onrender.com/v1/ques/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },

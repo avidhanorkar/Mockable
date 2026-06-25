@@ -46,7 +46,7 @@ const Interview = () => {
     try {
       // Get job details from previous page (you might want to pass this through state)
       const response = await axios.post(
-        'http://localhost:3000/v1/interview/create',
+        'https://mockable.onrender.com/v1/interview/create',
         {
           jobTitle: 'Software Engineer', // TODO: Pass from setup page
           jobDescription: 'Full stack development', // TODO: Pass from setup page
@@ -182,7 +182,7 @@ const Interview = () => {
         formData.append('recording', blob, `question-${index}.webm`);
 
         await axios.post(
-          `http://localhost:3000/v1/interview/${interviewId}/upload`,
+          `https://mockable.onrender.com/v1/interview/${interviewId}/upload`,
           formData,
           {
             headers: { 'Content-Type': 'multipart/form-data' },
