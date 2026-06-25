@@ -48,7 +48,7 @@ const register = async (req: AuthRequest, res: Response) => {
         res.cookie("auth-token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+            sameSite: "none",
             maxAge: 60 * 60 * 1000,
             path: "/"
         })
@@ -102,7 +102,7 @@ const login = async (req: AuthRequest, res: Response) => {
         res.cookie("auth-token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+            sameSite: "none",
             maxAge: 60 * 60 * 1000,
             path: "/"
         })
@@ -168,7 +168,7 @@ const googleAuth = async (req: AuthRequest, res: Response) => {
         res.cookie("auth-token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+            sameSite: "none",
             maxAge: 60 * 60 * 1000,
             path: "/"
         })
