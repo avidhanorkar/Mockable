@@ -122,11 +122,12 @@ and include them in "additionalTopics" array.`;
             audioUrl,
         });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error("🔥 Error in Generating Questions:", error);
 
         return res.status(500).json({
-            msg: "Internal Server Error",
+            msg: error?.message || "Internal Server Error",
+            detail: error?.toString()
         });
     }
 };
