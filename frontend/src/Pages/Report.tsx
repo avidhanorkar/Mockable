@@ -13,8 +13,7 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
-    ResponsiveContainer,
-    Legend
+    ResponsiveContainer
 } from 'recharts';
 import { Download, ArrowLeft, TrendingUp, Award, Target, MessageSquare } from 'lucide-react';
 import { Button } from '../Components/ui/button';
