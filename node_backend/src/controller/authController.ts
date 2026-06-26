@@ -109,7 +109,12 @@ const login = async (req: AuthRequest, res: Response) => {
 
         return res.status(200).json({
             msg: "User Logged in successfully",
-            token: token
+            token: token,
+            user: {
+                id: user._id,
+                email: user.email,
+                name: user.name
+            }
         })
     } catch (error) {
         console.log(error)

@@ -1,7 +1,7 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-
 import { useAuth } from "../context/authContext";
+import { API_BASE_URL } from "./api";
 
 const useGoogleAuth = () => {
 
@@ -11,7 +11,7 @@ const useGoogleAuth = () => {
         flow: 'auth-code',
         onSuccess: async (authResult) => {
             if (authResult.code) {
-                const result = await axios.post(`https://mockable.onrender.com/v1/auth/google?code=${authResult.code}`, {}, {
+                const result = await axios.post(`${API_BASE_URL}/v1/auth/google?code=${authResult.code}`, {}, {
                     withCredentials: true
                 })
 

@@ -16,11 +16,23 @@ app.use(cookieParser()); // cookie access
 // CORS - cross origin resource sharing
 // Frontend PORT 5173 
 // Backend PORT 3000
-// 
+const allowedOrigins = [
+  "https://mockableinterviews.vercel.app",
+  "http://localhost:5173",
+  process.env.FRONTEND_URL
+].filter(Boolean) as string[];
+
 const corsOption = {
-  origin: process.env.FRONTEND_URL || "https://mockableinterviews.vercel.app",
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    if (!origin) return callback(null, true);
+    if (origin.startsWith("http://localhost") || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
+    return callback(new Error(msg), false);
+  },
   credentials: true
-}
+};
 app.use(cors(corsOption));
 connectDB();
 

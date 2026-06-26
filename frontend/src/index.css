@@ -1,6 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
-::-webkit-scrollbar{
-    display: none;
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-brand-cyan: #00f0ff;
+  --color-brand-violet: #8b5cf6;
+  --color-neutral-950: #030303;
+  --color-neutral-900: #0a0a0a;
+  --color-neutral-800: #171717;
+  --color-neutral-700: #262626;
+
+  --animate-grid-drift: grid-drift 20s linear infinite;
+  --animate-shimmer: shimmer 8s infinite linear;
+  --animate-border-glow: border-glow 6s infinite ease-in-out;
+  --animate-wave: wave 1.2s ease-in-out infinite alternate;
+
+  @keyframes grid-drift {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 40px 40px;
+    }
+  }
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  @keyframes border-glow {
+    0%, 100% {
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+    50% {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+  @keyframes wave {
+    from {
+      transform: scaleY(0.3);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+}
+
+@source "./**/*.{ts,tsx}";
+@source "../index.html";
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #1f1f1f;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+}
+
+.bg-dot-pattern {
+  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.glass-panel {
+  background: rgba(8, 8, 8, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.glass-pill {
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glow-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glow-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to bottom right, rgba(255,255,255,0.06), transparent, rgba(255,255,255,0.02));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  opacity: 0.5;
+}
+.glow-card:hover::after {
+  opacity: 1;
+  background: linear-gradient(to bottom right, rgba(255,255,255,0.18), rgba(255,255,255,0.03), rgba(255,255,255,0.08));
+}
+
+.text-shimmer {
+  background: linear-gradient(90deg, #7c7c7c 0%, #ffffff 30%, #ffffff 70%, #7c7c7c 100%);
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shimmer 12s linear infinite;
 }

@@ -15,16 +15,15 @@ import InterviewSetup from './Pages/InterviewSetup'
 import Interview from './Pages/Interview'
 import Report from './Pages/Report'
 
-
 const client = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
 const App = () => {
   return (
-    <div className='bg-[#161616] min-h-screen overflow-y-hidden'>
+    <div className="min-h-screen bg-black text-white">
       <BrowserRouter>
         <GoogleOAuthProvider clientId={client}>
           <Navbar />
-          <div className='pt-40 pb-20'>
+          <div className="pt-24">
             <Routes>
               <Route path="/" element={<PublicRoute><Landing /></PublicRoute>} />
               <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />

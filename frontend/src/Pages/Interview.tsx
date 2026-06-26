@@ -6,6 +6,7 @@ import { Button } from '../Components/ui/button';
 import InterviewRecorder from '../Components/InterviewRecorder';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import { API_BASE_URL } from '../config/api';
 
 interface Question {
   question: string;
@@ -46,7 +47,7 @@ const Interview = () => {
     try {
       // Get job details from previous page (you might want to pass this through state)
       const response = await axios.post(
-        'https://mockable.onrender.com/v1/interview/create',
+        `${API_BASE_URL}/v1/interview/create`,
         {
           jobTitle: 'Software Engineer', // TODO: Pass from setup page
           jobDescription: 'Full stack development', // TODO: Pass from setup page
@@ -182,7 +183,7 @@ const Interview = () => {
         formData.append('recording', blob, `question-${index}.webm`);
 
         await axios.post(
-          `https://mockable.onrender.com/v1/interview/${interviewId}/upload`,
+          `${API_BASE_URL}/v1/interview/${interviewId}/upload`,
           formData,
           {
             headers: { 'Content-Type': 'multipart/form-data' },
@@ -207,8 +208,12 @@ const Interview = () => {
 
   if (questions.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-white text-xl">Loading interview...</div>
+      <div className="min-h-screen bg-black text-white flex items-center justify-center relative font-mono text-xs uppercase tracking-widest">
+        <div className="absolute inset-0 bg-dot-pattern pointer-events-none opacity-45" />
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-2 border-white/5 border-t-white rounded-full animate-spin"></div>
+          <div>LOADING INTERVIEW SESSION...</div>
+        </div>
       </div>
     );
   }
@@ -217,23 +222,27 @@ const Interview = () => {
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   return (
-    <div className="min-h-[calc(100vh-100px)] p-6">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-white/20 relative overflow-hidden pb-24">
+      {/* Ambient Background Dotted Grid */}
+      <div className="absolute inset-0 bg-dot-pattern pointer-events-none opacity-45" />
+      <div className="absolute left-1/2 top-1/3 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.01] blur-3xl pointer-events-none" />
+
       <Toaster position="top-right" />
 
-      <div className="max-w-6xl mx-auto">
+      <div className="relative z-10 max-w-4xl mx-auto px-6 space-y-8 pt-8">
         {/* Progress bar */}
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-gray-400 text-sm">
-              Question {currentQuestionIndex + 1} of {questions.length}
+        <div>
+          <div className="flex justify-between items-center mb-3">
+            <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-500 bg-neutral-950 border border-neutral-900 px-2 py-0.5 rounded">
+              QUESTION // 0{currentQuestionIndex + 1} OF 0{questions.length}
             </span>
-            <span className="text-gray-400 text-sm">
-              {recordedBlobs.size} / {questions.length} answered
+            <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-500 bg-neutral-950 border border-neutral-900 px-2 py-0.5 rounded">
+              STATUS // {recordedBlobs.size} OF {questions.length} ANSWERED
             </span>
           </div>
-          <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+          <div className="w-full h-[3px] bg-neutral-900 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
+              className="h-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.5)]"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.3 }}
@@ -245,25 +254,30 @@ const Interview = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentQuestionIndex}
-            className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 mb-8"
-            initial={{ opacity: 0, y: 20 }}
+            className="glass-panel rounded-2xl p-8 shadow-2xl relative overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300"
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.25 }}
           >
-            <div className="flex items-start justify-between mb-4">
-              <h2 className="text-2xl font-bold text-white flex-1">
-                {currentQuestion.question}
-              </h2>
+            <div className="flex items-start justify-between gap-6">
+              <div className="flex-1 space-y-2">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-500 block">
+                  ACTIVE PROMPT
+                </span>
+                <h2 className="text-xl font-semibold text-white tracking-tight leading-relaxed">
+                  {currentQuestion.question}
+                </h2>
+              </div>
               {currentQuestion.audioUrl && (
                 <motion.button
                   onClick={playQuestionAudio}
                   disabled={audioPlaying}
-                  className={`ml-4 p-3 rounded-full transition-all ${audioPlaying
-                    ? 'bg-blue-500/20 text-blue-400 cursor-not-allowed'
+                  className={`p-3 rounded-full border transition-all cursor-pointer ${audioPlaying
+                    ? 'bg-white/10 text-white border-white/20 cursor-not-allowed'
                     : audioError
-                      ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
-                      : 'bg-white/10 text-white hover:bg-white/20'
+                      ? 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                      : 'bg-neutral-950 text-neutral-400 border-neutral-900 hover:text-white hover:border-neutral-800'
                     }`}
                   whileHover={!audioPlaying ? { scale: 1.05 } : {}}
                   whileTap={!audioPlaying ? { scale: 0.95 } : {}}
@@ -274,10 +288,10 @@ const Interview = () => {
                       animate={{ rotate: 360 }}
                       transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                     >
-                      <Volume2 size={20} />
+                      <Volume2 size={16} />
                     </motion.div>
                   ) : (
-                    <Volume2 size={20} />
+                    <Volume2 size={16} />
                   )}
                 </motion.button>
               )}
@@ -285,41 +299,42 @@ const Interview = () => {
 
             {audioPlaying && (
               <motion.div
-                className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg flex items-center gap-2"
+                className="mt-6 p-3 bg-neutral-955 border border-neutral-900 rounded-xl flex items-center gap-3"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
               >
-                <div className="flex gap-1">
-                  {[0, 1, 2].map((i) => (
+                <div className="flex gap-0.5 items-center h-3">
+                  {[0, 1, 2, 3, 4].map((i) => (
                     <motion.div
                       key={i}
-                      className="w-1 bg-blue-400 rounded-full"
+                      className="w-[2px] bg-white rounded-full"
                       animate={{
-                        height: ['8px', '16px', '8px'],
+                        height: ['4px', '12px', '4px'],
                       }}
                       transition={{
-                        duration: 0.8,
+                        duration: 0.6,
                         repeat: Infinity,
-                        delay: i * 0.2,
+                        delay: i * 0.1,
                       }}
                     />
                   ))}
                 </div>
-                <p className="text-blue-400 text-sm">Playing question audio...</p>
+                <p className="text-neutral-400 font-mono text-[9px] uppercase tracking-wider">Playing question audio...</p>
               </motion.div>
             )}
 
             {recordedBlobs.has(currentQuestionIndex) && (
-              <div className="mt-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
-                <p className="text-green-400 text-sm">✓ Answer recorded</p>
+              <div className="mt-6 p-3 bg-emerald-500/5 border border-emerald-500/10 rounded-xl flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-450 animate-pulse" />
+                <p className="text-emerald-450 font-mono text-[9px] uppercase tracking-widest">✓ Response calibrated and saved</p>
               </div>
             )}
           </motion.div>
         </AnimatePresence>
 
         {/* Recorder */}
-        <div className="mb-8">
+        <div className="mb-6">
           <InterviewRecorder
             onRecordingComplete={handleRecordingComplete}
             onUploadFile={handleUploadFile}
@@ -327,14 +342,13 @@ const Interview = () => {
         </div>
 
         {/* Navigation */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4">
           <Button
             onClick={previousQuestion}
             disabled={currentQuestionIndex === 0}
-            variant="outline"
-            className="flex items-center gap-2"
+            className="font-mono text-[10px] uppercase font-semibold tracking-wider rounded-full border border-neutral-900 bg-neutral-950 text-neutral-400 hover:bg-neutral-900 hover:text-white px-5 py-2.5 transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={12} className="mr-1" />
             Previous
           </Button>
 
@@ -343,11 +357,11 @@ const Interview = () => {
               <button
                 key={index}
                 onClick={() => setCurrentQuestionIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all ${index === currentQuestionIndex
-                  ? 'bg-white w-8'
+                className={`h-1.5 rounded-full transition-all duration-300 ${index === currentQuestionIndex
+                  ? 'bg-white w-6'
                   : recordedBlobs.has(index)
-                    ? 'bg-green-500'
-                    : 'bg-white/20'
+                    ? 'bg-emerald-400 w-3'
+                    : 'bg-neutral-900 w-1.5'
                   }`}
               />
             ))}
@@ -357,18 +371,18 @@ const Interview = () => {
             <Button
               onClick={submitInterview}
               disabled={isSubmitting}
-              className="bg-green-500 hover:bg-green-600 flex items-center gap-2"
+              className="bg-emerald-500 text-white hover:bg-emerald-600 font-mono text-[10px] uppercase font-semibold tracking-wider rounded-full px-6 py-2.5 transition-all flex items-center gap-1.5 shadow-lg shadow-emerald-500/10 cursor-pointer disabled:opacity-50"
             >
               {isSubmitting ? 'Submitting...' : 'Submit Interview'}
-              <Send size={20} />
+              <Send size={12} />
             </Button>
           ) : (
             <Button
               onClick={nextQuestion}
-              className="flex items-center gap-2"
+              className="bg-white text-black hover:bg-neutral-200 font-mono text-[10px] uppercase font-semibold tracking-wider rounded-full px-6 py-2.5 transition-all flex items-center gap-1.5 cursor-pointer"
             >
               Next
-              <ChevronRight size={20} />
+              <ChevronRight size={12} />
             </Button>
           )}
         </div>

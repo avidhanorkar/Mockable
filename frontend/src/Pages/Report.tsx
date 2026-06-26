@@ -19,6 +19,7 @@ import { Download, ArrowLeft, TrendingUp, Award, Target, MessageSquare } from 'l
 import { Button } from '../Components/ui/button';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import { API_BASE_URL } from '../config/api';
 
 interface InterviewData {
     _id: string;
@@ -63,7 +64,7 @@ const Report = () => {
     const fetchInterviewReport = async () => {
         try {
             const response = await axios.get(
-                `https://mockable.onrender.com/v1/interview/${id}`,
+                `${API_BASE_URL}/v1/interview/${id}`,
                 { withCredentials: true }
             );
             setInterview(response.data.interview);

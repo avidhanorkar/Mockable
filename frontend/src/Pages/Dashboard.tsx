@@ -4,6 +4,8 @@ import { Plus, Clock, BarChart2, Calendar, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import { API_BASE_URL } from '../config/api';
+import { useAuth } from '../context/authContext';
 
 interface Interview {
     _id: string;
@@ -21,6 +23,7 @@ interface Stats {
 
 const Dashboard = () => {
     const navigate = useNavigate();
+    const { user } = useAuth();
     const [interviews, setInterviews] = useState<Interview[]>([]);
     const [stats, setStats] = useState<Stats>({
         totalInterviews: 0,
@@ -36,7 +39,7 @@ const Dashboard = () => {
     const fetchDashboardData = async () => {
         try {
             const response = await axios.get(
-                'https://mockable.onrender.com/v1/interview/',
+                `${API_BASE_URL}/v1/interview/`,
                 { withCredentials: true }
             );
 
@@ -66,19 +69,16 @@ const Dashboard = () => {
             label: 'Interviews Completed',
             value: stats.totalInterviews.toString(),
             icon: Calendar,
-            color: 'text-blue-400'
         },
         {
             label: 'Average Score',
             value: `${stats.averageScore}%`,
             icon: BarChart2,
-            color: 'text-green-400'
         },
         {
             label: 'Time Practiced',
             value: `${Math.floor(stats.totalTime / 60)}h ${stats.totalTime % 60}m`,
             icon: Clock,
-            color: 'text-purple-400'
         },
     ];
 
@@ -91,50 +91,67 @@ const Dashboard = () => {
     };
 
     const getScoreColor = (score: number) => {
-        if (score >= 80) return 'text-green-400';
-        if (score >= 60) return 'text-yellow-400';
-        return 'text-red-400';
+        if (score >= 80) return 'text-emerald-400';
+        if (score >= 60) return 'text-amber-400';
+        return 'text-rose-500';
     };
 
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'completed':
-                return 'bg-green-500/10 text-green-400 border-green-500/20';
+                return 'bg-emerald-500/5 text-emerald-400 border-emerald-500/10';
             case 'processing':
-                return 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20';
+                return 'bg-amber-500/5 text-amber-400 border-amber-500/10';
             case 'pending':
-                return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+                return 'bg-neutral-900/60 text-neutral-400 border-neutral-850/40';
             default:
-                return 'bg-gray-500/10 text-gray-400 border-gray-500/20';
+                return 'bg-neutral-900/30 text-neutral-500 border-neutral-850/20';
         }
     };
 
     if (loading) {
         return (
-            <div className='bg-[#161616] min-h-screen text-white flex items-center justify-center'>
-                <div className="text-xl">Loading dashboard...</div>
+            <div className='bg-black min-h-screen text-white flex items-center justify-center relative font-mono text-xs uppercase tracking-widest'>
+                <div className="absolute inset-0 bg-dot-pattern pointer-events-none opacity-45" />
+                <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 border-2 border-white/5 border-t-white rounded-full animate-spin"></div>
+                    <div>CALIBRATING SESSION LABS...</div>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className='bg-[#161616] min-h-screen text-white font-sans selection:bg-white/20'>
-            <main className='max-w-7xl mx-auto px-6 space-y-12'>
-                <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-6'>
+        <div className='bg-black min-h-screen text-white font-sans selection:bg-white/20 relative overflow-hidden pb-24'>
+            {/* Ambient Background Dotted Grid */}
+            <div className="absolute inset-0 bg-dot-pattern pointer-events-none opacity-45" />
+            
+            {/* Soft Ambient Radial Glow */}
+            <div className="absolute left-1/2 top-1/3 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.015] blur-3xl pointer-events-none" />
+
+            <main className='relative z-10 max-w-5xl mx-auto px-6 space-y-12 pt-8'>
+                <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 border-b border-white/5 pb-8'>
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3 }}
                     >
-                        <h1 className='text-4xl font-bold mb-2 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent'>
-                            Hello, User
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-500 bg-neutral-950 border border-neutral-900 px-2 py-0.5 rounded">
+                                SYSTEM COCKPIT // SECURE
+                            </span>
+                        </div>
+                        <h1 className='text-3xl font-bold tracking-tight text-white'>
+                            Hello, {user?.name?.split(' ')[0] || 'User'}
                         </h1>
-                        <p className='text-gray-400 text-lg'>Ready to ace your next interview?</p>
+                        <p className='text-neutral-400 text-sm mt-1 font-mono uppercase text-[9px] tracking-widest'>
+                            READY TO CALIBRATE YOUR INTERVIEW PERFORMANCE
+                        </p>
                     </motion.div>
                     <Link to="/interview-setup">
-                        <Button className='bg-white text-black hover:bg-gray-200 px-6 py-6 rounded-xl text-lg font-semibold flex items-center gap-2 transition-all shadow-lg shadow-white/5'>
-                            <Plus className='w-5 h-5' />
-                            Start New Interview
+                        <Button className='bg-white text-black hover:bg-neutral-200 px-5 py-2.5 rounded-full text-xs font-mono font-semibold uppercase tracking-wider flex items-center gap-1.5 transition-all hover:scale-[1.02] cursor-pointer'>
+                            <Plus className='w-3.5 h-3.5' />
+                            Start New Session
                         </Button>
                     </Link>
                 </div>
@@ -143,74 +160,87 @@ const Dashboard = () => {
                     {statsData.map((stat, index) => (
                         <motion.div
                             key={index}
-                            className='bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 group'
-                            initial={{ opacity: 0, y: 20 }}
+                            className='glow-card bg-neutral-950/40 border border-neutral-900 rounded-2xl p-6 hover:bg-neutral-950/70 transition-all duration-300 group'
+                            initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: index * 0.1 }}
+                            transition={{ duration: 0.3, delay: index * 0.08 }}
                         >
                             <div className='flex items-center justify-between mb-4'>
-                                <div className={`p-3 rounded-xl bg-white/5 ${stat.color} group-hover:scale-110 transition-transform`}>
-                                    <stat.icon className='w-6 h-6' />
+                                <div className='p-2.5 rounded-xl border border-neutral-900 bg-neutral-950/80 group-hover:scale-105 transition-transform'>
+                                    <stat.icon className='w-4 h-4 text-white/80' />
                                 </div>
-                                <span className='text-gray-500 text-sm'>Last 30 days</span>
+                                <span className='font-mono text-[9px] uppercase tracking-widest text-neutral-500'>
+                                    METRIC // 0{index + 1}
+                                </span>
                             </div>
-                            <h3 className='text-3xl font-bold mb-1'>{stat.value}</h3>
-                            <p className='text-gray-400'>{stat.label}</p>
+                            <h3 className='text-3xl font-semibold tracking-tight text-white mb-1'>{stat.value}</h3>
+                            <p className='text-xs font-mono uppercase tracking-wider text-neutral-400'>{stat.label}</p>
                         </motion.div>
                     ))}
                 </div>
 
                 <motion.div
-                    className='bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8'
-                    initial={{ opacity: 0, y: 20 }}
+                    className='glass-panel rounded-2xl p-8'
+                    initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: 0.4 }}
+                    transition={{ duration: 0.3, delay: 0.3 }}
                 >
-                    <div className='flex items-center justify-between mb-8'>
-                        <h2 className='text-2xl font-bold'>Recent Interviews</h2>
-                        <Button variant="ghost" className='text-gray-400 hover:text-white flex items-center gap-2'>
-                            View All <ArrowRight className='w-4 h-4' />
+                    <div className='flex items-center justify-between mb-8 border-b border-white/5 pb-4'>
+                        <div>
+                            <h2 className='text-lg font-semibold text-white'>Recent Evaluations</h2>
+                            <p className="font-mono text-[9px] uppercase tracking-widest text-neutral-500 mt-0.5">
+                                HISTORICAL SESSION REPORT REGISTRY
+                            </p>
+                        </div>
+                        <Button variant="ghost" className='font-mono text-[10px] uppercase tracking-wider text-neutral-400 hover:text-white flex items-center gap-1 cursor-pointer'>
+                            View All <ArrowRight className='w-3.5 h-3.5' />
                         </Button>
                     </div>
 
                     {interviews.length === 0 ? (
-                        <div className="text-center py-12">
-                            <p className="text-gray-400 mb-4">No interviews yet</p>
+                        <div className="text-center py-16 border border-dashed border-neutral-900 rounded-xl">
+                            <p className="font-mono text-[10px] uppercase tracking-widest text-neutral-500 mb-4">
+                                NO EVALUATION SESSIONS RECORDED
+                            </p>
                             <Link to="/interview-setup">
-                                <Button>Start Your First Interview</Button>
+                                <Button className="bg-white text-black hover:bg-neutral-200 px-4 py-2 rounded-full font-mono text-[10px] uppercase font-semibold tracking-wider cursor-pointer">
+                                    Start Your First Session
+                                </Button>
                             </Link>
                         </div>
                     ) : (
-                        <div className='space-y-4'>
+                        <div className='space-y-3.5'>
                             {interviews.map((interview) => (
                                 <div
                                     key={interview._id}
                                     onClick={() => interview.status === 'completed' && navigate(`/report/${interview._id}`)}
-                                    className={`flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all group ${interview.status === 'completed' ? 'cursor-pointer' : 'cursor-default'}`}
+                                    className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-neutral-900 bg-neutral-950/20 hover:bg-neutral-950/60 hover:border-neutral-850 transition-all duration-200 group gap-4 ${interview.status === 'completed' ? 'cursor-pointer' : 'cursor-default'}`}
                                 >
                                     <div className='flex items-center gap-4'>
-                                        <div className='h-12 w-12 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center text-blue-400 font-bold'>
+                                        <div className='h-10 w-10 rounded-lg border border-neutral-900 bg-neutral-950 flex items-center justify-center text-white/80 font-mono font-bold text-sm'>
                                             {interview.jobTitle.charAt(0)}
                                         </div>
                                         <div>
-                                            <h3 className='font-semibold text-lg group-hover:text-blue-400 transition-colors'>
+                                            <h3 className='font-sans font-medium text-sm text-neutral-200 group-hover:text-white transition-colors'>
                                                 {interview.jobTitle}
                                             </h3>
-                                            <p className='text-gray-400 text-sm'>{formatDate(interview.createdAt)}</p>
+                                            <p className='font-mono text-[9px] text-neutral-500 uppercase mt-0.5'>
+                                                RECORDED ON {formatDate(interview.createdAt)}
+                                            </p>
                                         </div>
                                     </div>
 
-                                    <div className='flex items-center gap-8'>
+                                    <div className='flex items-center justify-between sm:justify-end gap-6 sm:gap-8'>
                                         {interview.status === 'completed' && (
-                                            <div className='text-right'>
-                                                <p className='text-sm text-gray-400'>Score</p>
-                                                <p className={`font-bold text-lg ${getScoreColor(interview.overallScore)}`}>
+                                            <div className='text-left sm:text-right'>
+                                                <p className='font-mono text-[8px] uppercase tracking-wider text-neutral-550'>OVERALL SCORE</p>
+                                                <p className={`font-mono font-medium text-sm mt-0.5 ${getScoreColor(interview.overallScore)}`}>
                                                     {interview.overallScore}%
                                                 </p>
                                             </div>
                                         )}
-                                        <div className={`px-4 py-1 rounded-full text-sm font-medium border ${getStatusColor(interview.status)}`}>
-                                            {interview.status.charAt(0).toUpperCase() + interview.status.slice(1)}
+                                        <div className={`px-3 py-1 rounded-full font-mono text-[9px] uppercase tracking-wider border ${getStatusColor(interview.status)}`}>
+                                            {interview.status}
                                         </div>
                                     </div>
                                 </div>

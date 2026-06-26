@@ -1,8 +1,11 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import type { ReactNode } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 export interface User {
     id: string;
     email: string;
+    name?: string;
 }
 
 export interface AuthContextType {
@@ -10,7 +13,8 @@ export interface AuthContextType {
     token: string | null;
     isLoading: boolean;
     isAuthenticated: boolean;
-    login: (token: string, user: User) => void;
+    login: (token: string, user: any) => void;
+    logout: () => void;
 }
 
 export interface LoginResponse {
@@ -28,7 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const fetchUserData = async () => {
         try {
             const token = localStorage.getItem('auth-token');
-            const response = await fetch('https://mockable.onrender.com/v1/auth/me', {
+            const response = await fetch(`${API_BASE_URL}/v1/auth/me`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -36,7 +40,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             if (response.ok) {
                 const userData = await response.json();
-                setUser(userData);
+                const rawUser = userData.user;
+                if (rawUser) {
+                    setUser({
+                        id: rawUser._id || rawUser.id,
+                        email: rawUser.email,
+                        name: rawUser.name
+                    });
+                }
             }
 
         } catch (error) {
@@ -63,10 +74,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         checkAuth();
     }, []);
 
-    const login = (newToken: string, newUser: User) => {
+    const login = (newToken: string, newUser: any) => {
         setToken(newToken);
-        setUser(newUser);
+        if (newUser) {
+            setUser({
+                id: newUser._id || newUser.id,
+                email: newUser.email,
+                name: newUser.name
+            });
+        } else {
+            setUser(null);
+        }
         localStorage.setItem('auth-token', newToken);
+    };
+
+    const logout = () => {
+        setToken(null);
+        setUser(null);
+        localStorage.removeItem('auth-token');
     };
 
     const value: AuthContextType = {
@@ -75,6 +100,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isLoading,
         isAuthenticated: !!user,
         login,
+        logout,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
