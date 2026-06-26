@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Video, VideoOff, Mic, MicOff, Square, Play, Pause, Upload } from 'lucide-react';
-import { Button } from './ui/button';
+
 
 interface InterviewRecorderProps {
     onRecordingComplete: (blob: Blob) => void;
@@ -161,13 +161,13 @@ const InterviewRecorder: React.FC<InterviewRecorderProps> = ({
     }, [videoEnabled, audioEnabled]);
 
     return (
-        <div className="w-full max-w-4xl mx-auto">
+        <div className="w-full h-full flex flex-col gap-3">
             {/* Video Preview */}
             <motion.div
-                className="relative bg-black rounded-2xl overflow-hidden aspect-video mb-6"
+            className="relative bg-neutral-950 rounded-2xl overflow-hidden flex-1 min-h-0 border border-neutral-900"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
+            transition={{ duration: 0.3 }}
             >
                 <video
                     ref={videoRef}
@@ -211,8 +211,8 @@ const InterviewRecorder: React.FC<InterviewRecorderProps> = ({
                 </AnimatePresence>
             </motion.div>
 
-            {/* Controls */}
-            <div className="flex items-center justify-center gap-4 flex-wrap">
+            {/* Controls row */}
+            <div className="flex-none flex items-center justify-center gap-4 flex-wrap py-1">
                 {/* Video toggle */}
                 <motion.button
                     onClick={toggleVideo}
@@ -278,10 +278,9 @@ const InterviewRecorder: React.FC<InterviewRecorderProps> = ({
                 )}
             </div>
 
-            {/* Upload option */}
+            {/* Upload option — styled to match dark UI */}
             {onUploadFile && !isRecording && (
-                <div className="mt-6 text-center">
-                    <p className="text-gray-400 mb-3">Or upload a pre-recorded video</p>
+                <div className="flex-none">
                     <input
                         type="file"
                         accept="video/*,audio/*"
@@ -292,16 +291,12 @@ const InterviewRecorder: React.FC<InterviewRecorderProps> = ({
                         className="hidden"
                         id="file-upload"
                     />
-                    <label htmlFor="file-upload">
-                        <Button
-                            type="button"
-                            variant="outline"
-                            className="cursor-pointer"
-                            onClick={() => document.getElementById('file-upload')?.click()}
-                        >
-                            <Upload className="mr-2" size={20} />
-                            Upload File
-                        </Button>
+                    <label
+                        htmlFor="file-upload"
+                        className="flex items-center justify-center gap-2 w-full py-2 border border-dashed border-neutral-800 rounded-xl font-mono text-[9px] uppercase tracking-widest text-neutral-600 hover:text-neutral-400 hover:border-neutral-700 transition-colors cursor-pointer"
+                    >
+                        <Upload size={12} />
+                        Upload pre-recorded file
                     </label>
                 </div>
             )}
