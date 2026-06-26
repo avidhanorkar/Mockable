@@ -213,8 +213,8 @@ const Dashboard = () => {
                             {interviews.map((interview) => (
                                 <div
                                     key={interview._id}
-                                    onClick={() => interview.status === 'completed' && navigate(`/report/${interview._id}`)}
-                                    className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-neutral-900 bg-neutral-950/20 hover:bg-neutral-950/60 hover:border-neutral-850 transition-all duration-200 group gap-4 ${interview.status === 'completed' ? 'cursor-pointer' : 'cursor-default'}`}
+                                    onClick={() => navigate(`/report/${interview._id}`)}
+                                    className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-neutral-900 bg-neutral-950/20 hover:bg-neutral-950/60 hover:border-neutral-850 transition-all duration-200 group gap-4 cursor-pointer"
                                 >
                                     <div className='flex items-center gap-4'>
                                         <div className='h-10 w-10 rounded-lg border border-neutral-900 bg-neutral-950 flex items-center justify-center text-white/80 font-mono font-bold text-sm'>

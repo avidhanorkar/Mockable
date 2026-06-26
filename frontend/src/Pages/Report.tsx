@@ -58,23 +58,44 @@ const Report = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchInterviewReport();
-    }, [id]);
+        let intervalId: number;
 
-    const fetchInterviewReport = async () => {
-        try {
-            const response = await axios.get(
-                `${API_BASE_URL}/v1/interview/${id}`,
-                { withCredentials: true }
-            );
-            setInterview(response.data.interview);
-        } catch (error) {
-            console.error('Failed to fetch report:', error);
-            toast.error('Failed to load interview report');
-        } finally {
-            setLoading(false);
-        }
-    };
+        const fetchInterviewReport = async (isPoll = false) => {
+            try {
+                const response = await axios.get(
+                    `${API_BASE_URL}/v1/interview/${id}`,
+                    { withCredentials: true }
+                );
+                const data = response.data.interview;
+                setInterview(data);
+                
+                // Stop polling if the report is completed or failed
+                if (data.status !== 'processing' && data.status !== 'pending') {
+                    clearInterval(intervalId);
+                }
+            } catch (error) {
+                console.error('Failed to fetch report:', error);
+                if (!isPoll) {
+                    toast.error('Failed to load interview report');
+                }
+                clearInterval(intervalId);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        // First immediate fetch
+        fetchInterviewReport(false);
+
+        // Poll every 3 seconds to check if status becomes 'completed' or 'failed'
+        intervalId = window.setInterval(() => {
+            fetchInterviewReport(true);
+        }, 3000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [id]);
 
     const downloadPDF = () => {
         // TODO: Implement PDF generation
@@ -83,16 +104,71 @@ const Report = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="text-white text-xl">Loading report...</div>
+            <div className="min-h-screen bg-black text-white flex items-center justify-center relative font-mono text-xs uppercase tracking-widest">
+                <div className="absolute inset-0 bg-dot-pattern pointer-events-none opacity-45" />
+                <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 border-2 border-white/5 border-t-white rounded-full animate-spin"></div>
+                    <div>LOADING INTERVIEW SESSION...</div>
+                </div>
             </div>
         );
     }
 
     if (!interview) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="text-white text-xl">Report not found</div>
+            <div className="min-h-screen bg-black text-white flex items-center justify-center relative font-mono text-xs uppercase tracking-widest">
+                <div className="absolute inset-0 bg-dot-pattern pointer-events-none opacity-45" />
+                <div className="flex flex-col items-center gap-4 text-center px-4">
+                    <div className="text-red-500 text-lg">REPORT NOT FOUND</div>
+                    <button 
+                        onClick={() => navigate('/dashboard')}
+                        className="mt-4 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white font-mono text-[9px] uppercase tracking-widest px-4 py-2 rounded-lg transition"
+                    >
+                        Back to Dashboard
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    if (interview.status === 'processing' || interview.status === 'pending') {
+        return (
+            <div className="min-h-screen bg-black text-white flex items-center justify-center relative font-mono text-xs uppercase tracking-widest">
+                <div className="absolute inset-0 bg-dot-pattern pointer-events-none opacity-45" />
+                <div className="flex flex-col items-center gap-6 max-w-md text-center px-6">
+                    <div className="w-16 h-16 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin"></div>
+                    <div className="space-y-3">
+                        <h2 className="text-sm font-bold tracking-widest text-violet-400">ANALYZING YOUR INTERVIEW...</h2>
+                        <p className="text-neutral-400 text-[10px] normal-case leading-relaxed font-sans">
+                            Our AI is currently transcribing your responses and evaluating metrics like speech flow, confidence patterns, and technical correctness. This usually takes around 15–30 seconds.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (interview.status === 'failed') {
+        return (
+            <div className="min-h-screen bg-black text-white flex items-center justify-center relative font-mono text-xs uppercase tracking-widest">
+                <div className="absolute inset-0 bg-dot-pattern pointer-events-none opacity-45" />
+                <div className="flex flex-col items-center gap-6 max-w-md text-center px-6">
+                    <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-alert-triangle text-red-500"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </div>
+                    <div className="space-y-3">
+                        <h2 className="text-sm font-bold tracking-widest text-red-500">ANALYSIS FAILED</h2>
+                        <p className="text-neutral-400 text-[10px] normal-case leading-relaxed font-sans">
+                            An error occurred on the backend while running transcription or NLP evaluation on your responses.
+                        </p>
+                        <button 
+                            onClick={() => navigate('/dashboard')}
+                            className="mt-4 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white font-mono text-[9px] uppercase tracking-widest px-4 py-2 rounded-lg transition cursor-pointer"
+                        >
+                            Back to Dashboard
+                        </button>
+                    </div>
+                </div>
             </div>
         );
     }

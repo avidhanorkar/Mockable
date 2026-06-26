@@ -200,7 +200,16 @@ const processInterviewAsync = async (
 
         // Transcribe audio
         console.log(`Transcribing interview ${interviewId}...`);
-        const transcription = await transcribeAudio(audioPath);
+        let transcription: { text: string; duration?: number; language?: string };
+        try {
+            transcription = await transcribeAudio(audioPath);
+        } finally {
+            // Delete the temporary recording file to free up local disk space
+            if (fs.existsSync(videoPath)) {
+                fs.unlinkSync(videoPath);
+                console.log(`Cleaned up temporary recording file: ${videoPath}`);
+            }
+        }
 
         // Analyze the transcript
         console.log(`Analyzing interview ${interviewId}...`);
