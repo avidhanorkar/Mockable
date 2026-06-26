@@ -49,7 +49,17 @@ const InterviewSetup = () => {
                 withCredentials: true
             });
             console.log('Interview Questions:', response.data);
-            navigate('/interview', { state: { data: response.data } });
+            navigate('/interview', {
+                state: {
+                    data: response.data,
+                    setupDetails: {
+                        jobTitle,
+                        jobDescription,
+                        experience: parseInt(experience) || 3,
+                        techStack
+                    }
+                }
+            });
         } catch (error) {
             console.error('Error starting interview:', error);
             setErrorMsg((error as any)?.response?.data?.msg || 'Failed to generate interview. Please try again.');

@@ -16,7 +16,7 @@ interface Question {
 const Interview = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { data } = location.state || {};
+  const { data, setupDetails } = location.state || {};
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -45,17 +45,22 @@ const Interview = () => {
 
   const createInterviewSession = async (questions: Question[]) => {
     try {
-      // Get job details from previous page (you might want to pass this through state)
+      const token = localStorage.getItem('auth-token');
       const response = await axios.post(
         `${API_BASE_URL}/v1/interview/create`,
         {
-          jobTitle: 'Software Engineer', // TODO: Pass from setup page
-          jobDescription: 'Full stack development', // TODO: Pass from setup page
-          experience: 3, // TODO: Pass from setup page
-          techStack: 'React, Node.js', // TODO: Pass from setup page
+          jobTitle: setupDetails?.jobTitle || 'Software Engineer',
+          jobDescription: setupDetails?.jobDescription || 'Full stack development',
+          experience: setupDetails?.experience || 3,
+          techStack: setupDetails?.techStack || 'React, Node.js',
           questions: questions.map(q => ({ question: q.question, audioUrl: q.audioUrl || '' }))
         },
-        { withCredentials: true }
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          withCredentials: true
+        }
       );
 
       setInterviewId(response.data.interview._id);
@@ -178,6 +183,7 @@ const Interview = () => {
 
     try {
       // Upload all recordings
+      const token = localStorage.getItem('auth-token');
       for (const [index, blob] of recordedBlobs.entries()) {
         const formData = new FormData();
         formData.append('recording', blob, `question-${index}.webm`);
@@ -186,7 +192,10 @@ const Interview = () => {
           `${API_BASE_URL}/v1/interview/${interviewId}/upload`,
           formData,
           {
-            headers: { 'Content-Type': 'multipart/form-data' },
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': `Bearer ${token}`
+            },
             withCredentials: true
           }
         );

@@ -62,9 +62,13 @@ const Report = () => {
 
         const fetchInterviewReport = async (isPoll = false) => {
             try {
+                const token = localStorage.getItem('auth-token');
                 const response = await axios.get(
                     `${API_BASE_URL}/v1/interview/${id}`,
-                    { withCredentials: true }
+                    {
+                        headers: { 'Authorization': `Bearer ${token}` },
+                        withCredentials: true
+                    }
                 );
                 const data = response.data.interview;
                 setInterview(data);

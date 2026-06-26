@@ -38,9 +38,13 @@ const Dashboard = () => {
 
     const fetchDashboardData = async () => {
         try {
+            const token = localStorage.getItem('auth-token');
             const response = await axios.get(
                 `${API_BASE_URL}/v1/interview/`,
-                { withCredentials: true }
+                {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    withCredentials: true
+                }
             );
 
             const interviewData: Interview[] = response.data.interviews;
