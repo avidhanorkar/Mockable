@@ -11,6 +11,7 @@ interface TokenModalProps {
 const TokenModal: React.FC<TokenModalProps> = ({ isOpen, onClose, onSave }) => {
     const [token, setToken] = useState('');
     const [error, setError] = useState('');
+    const [isValidating, setIsValidating] = useState(false);
 
     useEffect(() => {
         // Pre-fill if exists
@@ -22,15 +23,31 @@ const TokenModal: React.FC<TokenModalProps> = ({ isOpen, onClose, onSave }) => {
 
     if (!isOpen) return null;
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!token.trim()) {
             setError('Please enter a valid API key');
             return;
         }
         
-        localStorage.setItem('gemini_api_key', token.trim());
-        onSave(token.trim());
-        onClose();
+        setIsValidating(true);
+        setError('');
+        
+        try {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash?key=${token.trim()}`);
+            if (!response.ok) {
+                setError('Invalid API key. Please check and try again.');
+                setIsValidating(false);
+                return;
+            }
+            
+            localStorage.setItem('gemini_api_key', token.trim());
+            onSave(token.trim());
+            onClose();
+        } catch (e) {
+            setError('Failed to validate API key. Please check your network connection.');
+        } finally {
+            setIsValidating(false);
+        }
     };
 
     return (
@@ -85,9 +102,10 @@ const TokenModal: React.FC<TokenModalProps> = ({ isOpen, onClose, onSave }) => {
                     <div className="pt-2">
                         <Button
                             onClick={handleSave}
-                            className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2.5 rounded-xl transition-colors flex justify-center items-center gap-2"
+                            disabled={isValidating}
+                            className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2.5 rounded-xl transition-colors flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Save Key & Continue
+                            {isValidating ? 'Validating...' : 'Save Key & Continue'}
                         </Button>
                     </div>
 

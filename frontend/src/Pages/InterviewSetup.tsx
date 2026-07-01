@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '../Components/ui/button';
 import { Upload, FileText, ArrowRight, Briefcase, Code, Clock } from 'lucide-react';
 import axios from 'axios';
@@ -17,6 +17,13 @@ const InterviewSetup = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
+
+    useEffect(() => {
+        const geminiKey = localStorage.getItem('gemini_api_key');
+        if (!geminiKey) {
+            setIsTokenModalOpen(true);
+        }
+    }, []);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
