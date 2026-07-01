@@ -42,7 +42,7 @@ const register = async (req: AuthRequest, res: Response) => {
         }
 
         const token = jwt.sign(payload, JWT_SECRET, {
-            expiresIn: "1h"
+            expiresIn: "30d"
         })
 
         res.cookie("auth-token", token, {

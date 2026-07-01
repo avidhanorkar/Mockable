@@ -1,8 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import fs from "fs";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY as string);
-
 interface TranscriptionResult {
     text: string;
     duration?: number;
@@ -12,13 +10,16 @@ interface TranscriptionResult {
 /**
  * Transcribe audio file using Gemini API (FREE!)
  * @param audioPath - Path to the audio file
+ * @param geminiKey - The Gemini API key provided by the user
  * @returns Transcription result with text and metadata
  */
-export const transcribeAudio = async (audioPath: string): Promise<TranscriptionResult> => {
+export const transcribeAudio = async (audioPath: string, geminiKey: string): Promise<TranscriptionResult> => {
     try {
-        if (!process.env.GEMINI_KEY) {
-            throw new Error("GEMINI_KEY is not set in environment variables");
+        if (!geminiKey) {
+            throw new Error("Gemini API Key is missing");
         }
+        
+        const genAI = new GoogleGenerativeAI(geminiKey);
 
         // Check if file exists
         if (!fs.existsSync(audioPath)) {
@@ -75,9 +76,9 @@ export const transcribeAudio = async (audioPath: string): Promise<TranscriptionR
  * @param audioPath - Path to the audio file
  * @returns Transcription text
  */
-export const transcribeWithTimestamps = async (audioPath: string) => {
+export const transcribeWithTimestamps = async (audioPath: string, geminiKey: string) => {
     // Gemini doesn't provide word-level timestamps, but we can still transcribe
-    const result = await transcribeAudio(audioPath);
+    const result = await transcribeAudio(audioPath, geminiKey);
     return {
         text: result.text,
         language: result.language

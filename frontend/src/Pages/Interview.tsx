@@ -184,6 +184,8 @@ const Interview = () => {
     try {
       // Upload all recordings
       const token = localStorage.getItem('auth-token');
+      const geminiKey = localStorage.getItem('gemini_api_key');
+      
       for (const [index, blob] of recordedBlobs.entries()) {
         const formData = new FormData();
         formData.append('recording', blob, `question-${index}.webm`);
@@ -194,7 +196,8 @@ const Interview = () => {
           {
             headers: {
               'Content-Type': 'multipart/form-data',
-              'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${token}`,
+              'x-gemini-key': geminiKey || ''
             },
             withCredentials: true
           }

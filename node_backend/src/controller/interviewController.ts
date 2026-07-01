@@ -77,8 +77,13 @@ export const uploadInterviewRecording = async (req: AuthRequest, res: Response) 
         interview.status = "processing";
         await interview.save();
 
+        const geminiKey = req.headers["x-gemini-key"] as string;
+        if (!geminiKey) {
+            return res.status(401).json({ message: "Gemini API Key is missing. Please provide it in the UI." });
+        }
+
         // Start async processing (transcription + analysis)
-        processInterviewAsync(id, filePath, interview.jobDescription);
+        processInterviewAsync(id, filePath, interview.jobDescription, geminiKey);
 
         return res.status(200).json({
             message: "Recording uploaded successfully. Processing started.",
@@ -188,7 +193,8 @@ export const deleteInterview = async (req: AuthRequest, res: Response) => {
 const processInterviewAsync = async (
     interviewId: string,
     videoPath: string,
-    jobDescription: string
+    jobDescription: string,
+    geminiKey: string
 ) => {
     try {
         const interview = await Interview.findById(interviewId);
@@ -202,7 +208,7 @@ const processInterviewAsync = async (
         console.log(`Transcribing interview ${interviewId}...`);
         let transcription: { text: string; duration?: number; language?: string };
         try {
-            transcription = await transcribeAudio(audioPath);
+            transcription = await transcribeAudio(audioPath, geminiKey);
         } finally {
             // Delete the temporary recording file to free up local disk space
             if (fs.existsSync(videoPath)) {

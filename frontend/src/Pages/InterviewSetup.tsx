@@ -4,6 +4,7 @@ import { Upload, FileText, ArrowRight, Briefcase, Code, Clock } from 'lucide-rea
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../config/api';
+import TokenModal from '../Components/ui/TokenModal';
 
 const InterviewSetup = () => {
     const navigate = useNavigate();
@@ -15,6 +16,7 @@ const InterviewSetup = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
+    const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -33,6 +35,13 @@ const InterviewSetup = () => {
             return;
         }
 
+        const geminiKey = localStorage.getItem('gemini_api_key');
+        if (!geminiKey) {
+            setIsLoading(false);
+            setIsTokenModalOpen(true);
+            return;
+        }
+
         const formData = new FormData();
         formData.append('title', jobTitle);
         formData.append('JD', jobDescription);
@@ -44,7 +53,8 @@ const InterviewSetup = () => {
             console.log("Pls Wait!")
             const response = await axios.post(`${API_BASE_URL}/v1/ques/`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'x-gemini-key': geminiKey
                 },
                 withCredentials: true
             });
@@ -250,6 +260,15 @@ const InterviewSetup = () => {
                     </div>
                 </div>
             )}
+
+            <TokenModal 
+                isOpen={isTokenModalOpen} 
+                onClose={() => setIsTokenModalOpen(false)} 
+                onSave={(token) => {
+                    setIsTokenModalOpen(false);
+                    // Optionally trigger the form submission automatically here
+                }} 
+            />
         </div>
     );
 };

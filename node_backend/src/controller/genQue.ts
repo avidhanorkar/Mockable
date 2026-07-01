@@ -15,10 +15,12 @@ const genQue = async (req: AuthRequest, res: Response) => {
             });
         }
 
-        if (!process.env.GEMINI_KEY) {
-            console.error("❌ GEMINI_KEY missing");
-            return res.status(500).json({
-                msg: "API key not configured",
+        const geminiKey = req.headers["x-gemini-key"] as string;
+
+        if (!geminiKey) {
+            console.error("❌ GEMINI_KEY missing from headers");
+            return res.status(401).json({
+                msg: "Gemini API key is missing. Please provide it in the UI.",
             });
         }
 
@@ -42,7 +44,7 @@ and include them in "additionalTopics" array.`;
         }
 
         // ✅ Gemini setup
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
+        const genAI = new GoogleGenerativeAI(geminiKey);
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
         // ✅ File handling
