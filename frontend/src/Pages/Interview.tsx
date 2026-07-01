@@ -184,15 +184,11 @@ const Interview = () => {
           `${API_BASE_URL}/v1/interview/${interviewId}/upload`,
           formData,
           {
-<<<<<<< HEAD
             headers: {
               'Content-Type': 'multipart/form-data',
               'Authorization': `Bearer ${token}`,
               'x-gemini-key': geminiKey || ''
             },
-=======
-            headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
->>>>>>> 2a553d59f8f548b9aa14cfb043f291688a1a27d2
             withCredentials: true
           }
         );
