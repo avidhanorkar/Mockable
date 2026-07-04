@@ -26,7 +26,8 @@ const Login = () => {
 
         if (response.status === 200) {
             login(response.data.token, response.data.user)
-            navigate("/dashboard")
+            const hasApiKey = localStorage.getItem('gemini_api_key');
+            navigate(hasApiKey ? "/dashboard" : "/api-setup")
         }
     }
 

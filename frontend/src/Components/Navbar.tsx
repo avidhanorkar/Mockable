@@ -93,6 +93,12 @@ const Navbar = () => {
               Sign Out
             </button>
             <Link
+              to="/api-setup"
+              className="font-mono text-[11px] text-neutral-350 hover:text-white cursor-pointer transition-colors duration-200"
+            >
+              API Key
+            </Link>
+            <Link
               to="/dashboard"
               className="flex items-center gap-1 rounded-full bg-white px-4 py-1.5 font-mono text-[11px] font-semibold text-black transition hover:bg-neutral-200"
             >
@@ -176,13 +182,22 @@ const Navbar = () => {
                 >
                   Sign Out
                 </button>
-                <Link
-                  to="/dashboard"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-full bg-white px-4 py-1.5 font-mono text-[11px] font-semibold text-black hover:bg-neutral-200"
-                >
-                  Dashboard
-                </Link>
+                <div className="flex items-center gap-4">
+                  <Link
+                    to="/api-setup"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="font-mono text-xs text-neutral-350 hover:text-white"
+                  >
+                    API Key
+                  </Link>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="rounded-full bg-white px-4 py-1.5 font-mono text-[11px] font-semibold text-black hover:bg-neutral-200"
+                  >
+                    Dashboard
+                  </Link>
+                </div>
               </div>
             ) : (
               <div className="flex items-center justify-between pt-2">

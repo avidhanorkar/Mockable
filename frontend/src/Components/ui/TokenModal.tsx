@@ -33,7 +33,7 @@ const TokenModal: React.FC<TokenModalProps> = ({ isOpen, onClose, onSave }) => {
         setError('');
         
         try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash?key=${token.trim()}`);
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash?key=${token.trim()}`);
             if (!response.ok) {
                 setError('Invalid API key. Please check and try again.');
                 setIsValidating(false);
@@ -81,7 +81,9 @@ const TokenModal: React.FC<TokenModalProps> = ({ isOpen, onClose, onSave }) => {
                             API KEY
                         </label>
                         <input
-                            type="password"
+                            type="text"
+                            autoComplete="off"
+                            spellCheck="false"
                             value={token}
                             onChange={(e) => {
                                 setToken(e.target.value);

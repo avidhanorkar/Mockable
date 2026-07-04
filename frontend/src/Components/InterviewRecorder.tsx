@@ -6,11 +6,13 @@ import { Video, VideoOff, Mic, MicOff, Square, Play, Pause, Upload } from 'lucid
 interface InterviewRecorderProps {
     onRecordingComplete: (blob: Blob) => void;
     onUploadFile?: (file: File) => void;
+    isSubmitting?: boolean;
 }
 
 const InterviewRecorder: React.FC<InterviewRecorderProps> = ({
     onRecordingComplete,
-    onUploadFile
+    onUploadFile,
+    isSubmitting
 }) => {
     const [isRecording, setIsRecording] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -159,6 +161,16 @@ const InterviewRecorder: React.FC<InterviewRecorderProps> = ({
             startCamera();
         }
     }, [videoEnabled, audioEnabled]);
+
+    // Stop camera immediately if submission starts
+    useEffect(() => {
+        if (isSubmitting) {
+            stopCamera();
+            if (mediaRecorderRef.current && isRecording) {
+                stopRecording();
+            }
+        }
+    }, [isSubmitting]);
 
     return (
         <div className="w-full h-full flex flex-col gap-3">

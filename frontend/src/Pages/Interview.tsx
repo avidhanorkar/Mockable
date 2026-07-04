@@ -399,6 +399,7 @@ const Interview = () => {
           <InterviewRecorder
             onRecordingComplete={handleRecordingComplete}
             onUploadFile={handleUploadFile}
+            isSubmitting={isSubmitting}
           />
         </div>
       </div>
