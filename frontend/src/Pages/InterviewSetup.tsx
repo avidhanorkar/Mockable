@@ -272,6 +272,7 @@ const InterviewSetup = () => {
                 isOpen={isTokenModalOpen} 
                 onClose={() => setIsTokenModalOpen(false)} 
                 onSave={(token) => {
+                    console.log(token);
                     setIsTokenModalOpen(false);
                     // Optionally trigger the form submission automatically here
                 }} 
