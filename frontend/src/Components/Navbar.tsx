@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
-import { Github, Sparkles, Menu, X, ArrowRight } from 'lucide-react'
+import { Github, Menu, X, ArrowRight } from 'lucide-react'
 import { useAuth } from '../context/authContext'
 
 const navItems = [
