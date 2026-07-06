@@ -51,7 +51,7 @@ const Navbar = () => {
       <Link to="/" className="group flex items-center gap-2 text-white">
         <div className="relative flex size-7 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition duration-300 group-hover:border-white/30 overflow-hidden">
           {/* <Sparkles className="size-3.5 text-white/80 transition-transform group-hover:scale-110" /> */}
-          <img src="/logo.png" alt="Mockable Logo" className="h-full w-full object-cover transition-transform group-hover:scale-110" />
+          <img src="/icon.png" alt="Mockable Logo" className="h-full w-full object-cover transition-transform group-hover:scale-110" />
         </div>
         <span className="font-mono text-sm font-medium tracking-tight text-neutral-200">
           mockable<span className="text-white/40">.ai</span>
