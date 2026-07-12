@@ -2,10 +2,163 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- What is this? following line -->
-    <link rel="icon" type="image/png" href="/icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mockable</title>
+
+    <!-- ── Primary SEO ─────────────────────────────────────────────────── -->
+    <title>Mockable – AI Mock Interview Platform | Ace Your Next Interview</title>
+    <meta name="description" content="Mockable is the AI-powered mock interview platform that generates personalized questions from your resume and job description, analyzes your speech, and gives you precise, actionable feedback to land your dream job." />
+    <meta name="keywords" content="AI mock interview, mock interview platform, interview preparation, AI interview feedback, speech analysis, resume-based interview, technical interview prep, behavioral interview practice, interview coaching, job interview simulator" />
+    <meta name="author" content="Mockable" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://mockableinterviews.vercel.app/" />
+
+    <!-- ── Open Graph / Facebook ────────────────────────────────────────── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mockableinterviews.vercel.app/" />
+    <meta property="og:site_name" content="Mockable" />
+    <meta property="og:title" content="Mockable – AI Mock Interview Platform | Ace Your Next Interview" />
+    <meta property="og:description" content="Generate personalized interview questions from your resume and job description. Get AI-powered speech analysis, STAR-structure scoring, and a detailed performance report to land your dream job." />
+    <meta property="og:image" content="https://mockableinterviews.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mockable AI Mock Interview Platform" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- ── Twitter / X Card ─────────────────────────────────────────────── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@mockableai" />
+    <meta name="twitter:creator" content="@mockableai" />
+    <meta name="twitter:title" content="Mockable – AI Mock Interview Platform" />
+    <meta name="twitter:description" content="AI mock interviews powered by your resume and job description. Get speech analysis, STAR scoring, and a detailed performance report." />
+    <meta name="twitter:image" content="https://mockableinterviews.vercel.app/og-image.png" />
+    <meta name="twitter:image:alt" content="Mockable AI Mock Interview Platform" />
+
+    <!-- ── Favicon & App Icons ──────────────────────────────────────────── -->
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <link rel="apple-touch-icon" href="/icon.png" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="msapplication-TileColor" content="#000000" />
+
+    <!-- ── Performance Hints ────────────────────────────────────────────── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://api.mockable.ai" />
+
+    <!-- ── JSON-LD Structured Data ──────────────────────────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://mockableinterviews.vercel.app/#website",
+          "url": "https://mockableinterviews.vercel.app/",
+          "name": "Mockable",
+          "description": "AI-powered mock interview platform that generates personalized questions, analyzes your speech, and helps you ace your next interview.",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://mockableinterviews.vercel.app/?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://mockable.ai/#app",
+          "name": "Mockable",
+          "applicationCategory": "EducationApplication",
+          "operatingSystem": "Web",
+          "url": "https://mockableinterviews.vercel.app/",
+          "description": "Mockable generates personalized AI interview questions from your resume and job description, records your answers, analyzes speech fluency, confidence, and STAR structure, then delivers a detailed performance report.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Free Tier",
+              "price": "0",
+              "priceCurrency": "USD",
+              "description": "1 full dynamic interview with basic signal analytics and resume setup parsing."
+            },
+            {
+              "@type": "Offer",
+              "name": "Professional",
+              "price": "12",
+              "priceCurrency": "USD",
+              "description": "Unlimited practice scenarios, precision decibel calibration, STAR structured reports, and longitudinal progress tracking."
+            }
+          ],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "312"
+          },
+          "screenshot": "https://mockable.ai/og-image.png",
+          "featureList": [
+            "AI-generated personalized interview questions",
+            "Resume and job description parsing",
+            "Real-time speech and audio analysis",
+            "STAR answer structure scoring",
+            "Confidence and sentiment detection",
+            "Detailed performance report with improvement suggestions",
+            "Progress tracking across sessions"
+          ]
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://mockable.ai/#organization",
+          "name": "Mockable",
+          "url": "https://mockableinterviews.vercel.app/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://mockable.ai/icon.png"
+          },
+          "sameAs": [
+            "https://github.com/mockableai",
+            "https://twitter.com/mockableai"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://mockable.ai/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How does Mockable personalize an interview?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Mockable combines your resume, target role, job description, and experience level to generate questions that match the interview you are actually preparing for."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I practice without video?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. You can answer with audio-first sessions and still receive transcript, fluency, confidence, filler-word, and technical feedback."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What does the report include?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "You get an overall score, answer-by-answer feedback, strengths, weak areas, speech metrics, transcript review, and AI suggestions for your next session."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Who is Mockable built for?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Students, fresh graduates, software engineers, job switchers, PMs, designers, data scientists, MBA graduates, and anyone preparing for high-stakes interviews."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

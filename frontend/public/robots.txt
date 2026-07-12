@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /interview
+Disallow: /interview-setup
+Disallow: /report/
+Disallow: /api-setup
+
+# Allow public marketing pages
+Allow: /
+Allow: /login
+Allow: /register
+
+Sitemap: https://mockableinterviews.vercel.app/sitemap.xml

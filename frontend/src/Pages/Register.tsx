@@ -5,8 +5,14 @@ import axios from 'axios'
 import useGoogleAuth from "../config/googleAuth"
 import { Sparkles, ArrowRight } from 'lucide-react'
 import { API_BASE_URL } from '../config/api'
+import { useSEO } from '../hooks/useSEO'
 
 const Register = () => {
+    useSEO({
+      title: 'Sign Up Free – Mockable AI Mock Interview Platform',
+      description: 'Create your free Mockable account. Get personalized AI interview questions, real-time speech analysis, and detailed feedback reports to land your dream job faster.',
+      canonical: 'https://mockableinterviews.vercel.app/register',
+    })
     const navigate = useNavigate()
     const { login } = useAuth()
     const googleLogin = useGoogleAuth()

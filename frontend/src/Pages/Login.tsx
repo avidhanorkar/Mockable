@@ -5,8 +5,14 @@ import useGoogleAuth from "../config/googleAuth"
 import { Sparkles, ArrowRight } from 'lucide-react'
 import { useAuth } from '../context/authContext'
 import { API_BASE_URL } from '../config/api'
+import { useSEO } from '../hooks/useSEO'
 
 const Login = () => {
+    useSEO({
+      title: 'Login – Mockable AI Interview Platform',
+      description: 'Sign in to your Mockable account and continue your AI-powered mock interview practice. Personalized questions, speech analysis, and performance reports await.',
+      canonical: 'https://mockableinterviews.vercel.app/login',
+    })
     const navigate = useNavigate()
     const { login } = useAuth()
     const googleLogin = useGoogleAuth()
